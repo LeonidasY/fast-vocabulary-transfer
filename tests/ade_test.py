@@ -9,8 +9,6 @@ sys.path.append(os.path.join('..', 'utils'))
 from general import load_data, init_model, vocab_transfer, tune_model
 from general import MLMDataset
 
-from tokenisation import train_tokeniser
-
 from classification import train_model
 from classification import CLFDataset, CLFAnalyser
 
@@ -24,13 +22,6 @@ FP16 = True
 MODEL = 'bert-base-cased' # 'bert-base-cased', 'ade-double'
 
 # Utilised functions
-def get_tokeniser(tokeniser, percent, X_train):
-  vocab_org = tokeniser.get_vocab()
-  new_size = round(len(vocab_org) * percent / 100)
-  new_tokeniser = train_tokeniser(f'ade_{percent}', tokeniser, X_train, new_size)
-  assert len(new_tokeniser.get_vocab()) == new_size, 'The vocabulary size is incorrect.'
-  return new_tokeniser
-
 def get_mlm(model_name, args):
   def masked_lm():
     return AutoModelForMaskedLM.from_pretrained(model_name)
@@ -115,15 +106,15 @@ tune('mlm_org', tokeniser_org, mlm_org, tune_args, X_train, X_val)
 
 # Load the model
 clf_org = get_clf('mlm_org', clf_args)
-shutil.rmtree(f'{os.getcwd()}/mlm_org')
+shutil.rmtree('mlm_org')
 
 # Apply downstream fine-tuning 
 train(tokeniser_org, clf_org, train_args, X_train, y_train, X_val, y_val)
 
 """# 100% Vocab Size"""
 
-# Train the tokeniser
-tokeniser_100 = get_tokeniser(tokeniser_org, 100, X_train)
+# Load the tokeniser
+tokeniser_100 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ade', 'ade_100'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_100 = get_mlm(MODEL, mlm_args)
@@ -134,15 +125,15 @@ tune('mlm_100', tokeniser_100, mlm_100, tune_args, X_train, X_val)
 
 # Load the model
 clf_100 = get_clf('mlm_100', clf_args)
-shutil.rmtree(f'{os.getcwd()}/mlm_100')
+shutil.rmtree('mlm_100')
 
 # Apply downstream fine-tuning 
 train(tokeniser_100, clf_100, train_args, X_train, y_train, X_val, y_val)
 
 """# 75% Vocab Size"""
 
-# Train the tokeniser
-tokeniser_75 = get_tokeniser(tokeniser_org, 75, X_train)
+# Load the tokeniser
+tokeniser_75 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ade', 'ade_75'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_75 = get_mlm(MODEL, mlm_args)
@@ -153,15 +144,15 @@ tune('mlm_75', tokeniser_75, mlm_75, tune_args, X_train, X_val)
 
 # Load the model
 clf_75 = get_clf('mlm_75', clf_args)
-shutil.rmtree(f'{os.getcwd()}/mlm_75')
+shutil.rmtree('mlm_75')
 
 # Apply downstream fine-tuning 
 train(tokeniser_75, clf_75, train_args, X_train, y_train, X_val, y_val)
 
 """# 50% Vocab Size"""
 
-# Train the tokeniser
-tokeniser_50 = get_tokeniser(tokeniser_org, 50, X_train)
+# Load the tokeniser
+tokeniser_50 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ade', 'ade_50'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_50 = get_mlm(MODEL, mlm_args)
@@ -172,15 +163,15 @@ tune('mlm_50', tokeniser_50, mlm_50, tune_args, X_train, X_val)
 
 # Load the model
 clf_50 = get_clf('mlm_50', clf_args)
-shutil.rmtree(f'{os.getcwd()}/mlm_50')
+shutil.rmtree('mlm_50')
 
 # Apply downstream fine-tuning 
 train(tokeniser_50, clf_50, train_args, X_train, y_train, X_val, y_val)
 
 """# 25% Vocab Size"""
 
-# Train the tokeniser
-tokeniser_25 = get_tokeniser(tokeniser_org, 25, X_train)
+# Load the tokeniser
+tokeniser_25 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ade', 'ade_25'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_25 = get_mlm(MODEL, mlm_args)
@@ -191,7 +182,7 @@ tune('mlm_25', tokeniser_25, mlm_25, tune_args, X_train, X_val)
 
 # Load the model
 clf_25 = get_clf('mlm_25', clf_args)
-shutil.rmtree(f'{os.getcwd()}/mlm_25')
+shutil.rmtree('mlm_25')
 
 # Apply downstream fine-tuning 
 train(tokeniser_25, clf_25, train_args, X_train, y_train, X_val, y_val)
