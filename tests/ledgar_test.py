@@ -12,15 +12,6 @@ from general import MLMDataset
 from classification import train_model
 from classification import CLFDataset, CLFAnalyser
 
-# Set the hyperparameters
-TRANSFER = 'FVT' # 'FVT', 'PVT', 'WVT'
-SEED = 0
-SEQ_LEN = 128
-BATCH_SIZE = 64
-EPOCHS = 10
-FP16 = True
-MODEL = 'bert-base-cased' # 'bert-base-cased', 'ledgar-double'
-
 # Utilised functions
 def get_mlm(model_name, args):
   def masked_lm():
@@ -43,6 +34,20 @@ def train(tokeniser, model, args, X_train, y_train, X_val, y_val):
   train_data = CLFDataset(X_train, tokeniser, y_train)
   val_data = CLFDataset(X_val, tokeniser, y_val)
   train_model(model, args, train_data, val_data)
+
+"""# Experimental Setup"""
+
+# Set the hyperparameters
+TRANSFER = 'FVT' # 'FVT', 'PVT', 'WVT'
+SEED = 0
+SEQ_LEN = 128
+BATCH_SIZE = 64
+EPOCHS = 10
+FP16 = True
+MODEL = 'bert-base-cased' # 'bert-base-cased', 'ledgar-double'
+
+# Set the environment
+os.environ["CUDA_VISIBLE_DEVICES"] = "0" # "0", "1"
 
 # Define the trainer arguments
 mlm_args = TrainingArguments(
@@ -114,7 +119,7 @@ train(tokeniser_org, clf_org, train_args, X_train, y_train, X_val, y_val)
 """# 100% Vocab Size"""
 
 # Load the tokeniser
-tokeniser_100 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ledgar', 'ledgar_100'), model_max_length=SEQ_LEN)
+tokeniser_100 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'ledgar', 'ledgar_100'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_100 = get_mlm(MODEL, mlm_args)
@@ -133,7 +138,7 @@ train(tokeniser_100, clf_100, train_args, X_train, y_train, X_val, y_val)
 """# 75% Vocab Size"""
 
 # Load the tokeniser
-tokeniser_75 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ledgar', 'ledgar_75'), model_max_length=SEQ_LEN)
+tokeniser_75 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'ledgar', 'ledgar_75'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_75 = get_mlm(MODEL, mlm_args)
@@ -152,7 +157,7 @@ train(tokeniser_75, clf_75, train_args, X_train, y_train, X_val, y_val)
 """# 50% Vocab Size"""
 
 # Load the tokeniser
-tokeniser_50 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ledgar', 'ledgar_50'), model_max_length=SEQ_LEN)
+tokeniser_50 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'ledgar', 'ledgar_50'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_50 = get_mlm(MODEL, mlm_args)
@@ -171,7 +176,7 @@ train(tokeniser_50, clf_50, train_args, X_train, y_train, X_val, y_val)
 """# 25% Vocab Size"""
 
 # Load the tokeniser
-tokeniser_25 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenisers', 'ledgar', 'ledgar_25'), model_max_length=SEQ_LEN)
+tokeniser_25 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'ledgar', 'ledgar_25'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_25 = get_mlm(MODEL, mlm_args)

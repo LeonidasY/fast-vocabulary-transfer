@@ -11,15 +11,6 @@ from general import MLMDataset
 from distillation import distil_model, remove_layers
 from distillation import DistillationArguments
 
-# Set the hyperparameters
-SEED = 0
-SEQ_LEN = 64
-BATCH_SIZE = 64
-EPOCHS = 10
-FP16 = True
-TEACHER = 'bert-base-cased'
-STUDENT = 'bert-base-cased'
-
 # Defined functions
 def get_mlm(model_name, args):
   def masked_lm():
@@ -31,6 +22,20 @@ def distil(name, s_model, t_model, tokeniser, args, X_train, X_val, is_split, ch
   train_data = MLMDataset(X_train, tokeniser, is_split=is_split)
   val_data = MLMDataset(X_val, tokeniser, is_split=is_split)
   distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
+
+"""# Experimental Setup"""
+
+# Set the hyperparameters
+SEED = 0
+SEQ_LEN = 64
+BATCH_SIZE = 64
+EPOCHS = 10
+FP16 = True
+TEACHER = 'bert-base-cased'
+STUDENT = 'bert-base-cased'
+
+# Set the environment
+os.environ["CUDA_VISIBLE_DEVICES"] = "0" # "0", "1"
 
 # Trainer arguments
 mlm_args = TrainingArguments(
