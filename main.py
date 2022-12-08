@@ -1,13 +1,13 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from fvt.fvt import FastVocabularyTransfer
 
-
 if __name__ == "__main__":
 
     pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     pretrained_model = AutoModelForTokenClassification.from_pretrained("bert-base-uncased")
 
-    in_domain_data = [['']]
+    # load your dataset here
+    in_domain_data = ['A list of strings', '...']
 
     fvt = FastVocabularyTransfer()
     in_tokenizer, in_model = fvt.transfer(
