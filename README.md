@@ -42,5 +42,19 @@ if __name__ == "__main__":
 
 ### Cite
 ```
-TBA soon
+@inproceedings{gee-etal-2022-fast,
+    title = "Fast Vocabulary Transfer for Language Model Compression",
+    author = "Gee, Leonidas  and
+      Zugarini, Andrea  and
+      Rigutini, Leonardo  and
+      Torroni, Paolo",
+    booktitle = "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing: Industry Track",
+    month = dec,
+    year = "2022",
+    address = "Abu Dhabi, UAE",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.emnlp-industry.41",
+    pages = "409--416",
+    abstract = "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
+}
 ```
