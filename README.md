@@ -40,10 +40,10 @@ if __name__ == "__main__":
 
 ```
 
-### Paper 
+## Paper 
 [https://aclanthology.org/2022.emnlp-industry.41.pdf](https://aclanthology.org/2022.emnlp-industry.41.pdf)
 
-### Cite
+## Cite
 ```
 @inproceedings{gee-etal-2022-fast,
     title = "Fast Vocabulary Transfer for Language Model Compression",
