@@ -41,7 +41,7 @@ if __name__ == "__main__":
 ```
 
 ## Paper 
-[https://aclanthology.org/2022.emnlp-industry.41.pdf](https://aclanthology.org/2022.emnlp-industry.41.pdf)
+[https://aclanthology.org/2022.emnlp-industry.41](https://aclanthology.org/2022.emnlp-industry.41)
 
 ## Cite
 ```
