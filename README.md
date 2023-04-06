@@ -17,7 +17,7 @@ For example, to use a distilled model with "ade_test.py", simply put the two fil
 The types of vocabulary transfer available for each test script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT) and Weighted Vocabulary Transfer (WVT). Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.
 
 ## Paper 
-[https://aclanthology.org/2022.emnlp-industry.41.pdf](https://aclanthology.org/2022.emnlp-industry.41.pdf)
+[https://aclanthology.org/2022.emnlp-industry.41](https://aclanthology.org/2022.emnlp-industry.41)
 
 ## Cite
 ```
