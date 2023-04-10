@@ -1,6 +1,5 @@
 # Fast Vocabulary Transfer
-The repository wraps the code for the paper **Fast Vocabulary Transfer for Language Model Compression**
-presented at **EMNLP 2022** - industry track, into a ready to use library for your own application.
+The repository wraps the code for the paper titled **Fast Vocabulary Transfer for Language Model Compression** presented at **EMNLP 2022** - Industry Track, into a ready to use library for your own application.
 
 The emnlp2022 branch contains the original code base used for the paper.  
 
