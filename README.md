@@ -1,8 +1,8 @@
 # Fast Vocabulary Transfer
-The repository wraps the code used for the paper titled **Fast Vocabulary Transfer for Language Model Compression**
+The repository wraps the code for the paper **Fast Vocabulary Transfer for Language Model Compression**
 presented at **EMNLP 2022** - industry track, into a ready to use library for your own application.
 
-emnlp2022 branch contains the original code base used for the paper.  
+The emnlp2022 branch contains the original code base used for the paper.  
 
 **Authors:** Leonidas Gee, [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Paolo Torroni
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     )
 
 
-# Fine-tune your in-domain model to yours downstream task...
+# Fine-tune your in-domain model to your downstream task...
 
 ```
 
