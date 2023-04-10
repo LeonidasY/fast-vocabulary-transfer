@@ -1,5 +1,5 @@
 # Fast Vocabulary Transfer
-The repository contains the code used for the paper titled "Fast Vocabulary Transfer for Language Model Compression".
+The repository contains the code for the paper titled **Fast Vocabulary Transfer for Language Model Compression** presented at **EMNLP 2022** - Industry Track.
 
 ## Usage
 
