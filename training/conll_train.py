@@ -1,6 +1,5 @@
-# Import the libraries
 import os
-from transformers import AutoTokenizer, AutoModelForMaskedLM, AutoModelForTokenClassification, Trainer, TrainingArguments
+from transformers import AutoTokenizer, AutoModelForMaskedLM, AutoModelForTokenClassification, TrainingArguments
 import shutil
 
 import sys
@@ -12,16 +11,16 @@ from general import MLMDataset
 from ner import train_model
 from ner import NERDataset, NERAnalyser
 
-# Utilised functions
+# Defined functions
 def get_mlm(model_name, args):
   def masked_lm():
     return AutoModelForMaskedLM.from_pretrained(model_name)
   mlm = init_model(masked_lm, args)
   return mlm
 
-def tune(name, tokeniser, model, args, X_train, X_val):
-  train_data = MLMDataset(X_train, tokeniser, is_split=True)
-  val_data = MLMDataset(X_val, tokeniser, is_split=True)
+def tune(name, tokenizer, model, args, X_train, X_val):
+  train_data = MLMDataset(X_train, tokenizer, is_split=True)
+  val_data = MLMDataset(X_val, tokenizer, is_split=True)
   tune_model(name, model, args, train_data, val_data)
 
 def get_ner(model_name, args):
@@ -30,10 +29,11 @@ def get_ner(model_name, args):
   ner = init_model(classifier, args)
   return ner
 
-def train(tokeniser, model, args, X_train, y_train, X_val, y_val):
-  train_data = NERDataset(X_train, tokeniser, y_train)
-  val_data = NERDataset(X_val, tokeniser, y_val)
+def train(tokenizer, model, args, X_train, y_train, X_val, y_val):
+  train_data = NERDataset(X_train, tokenizer, y_train)
+  val_data = NERDataset(X_val, tokenizer, y_val)
   train_model(model, args, train_data, val_data)
+
 
 """# Experimental Setup"""
 
@@ -90,6 +90,7 @@ train_args = TrainingArguments(
   greater_is_better=True
 )
 
+
 """# Data Preparation"""
 
 # Load the dataset
@@ -100,107 +101,113 @@ X_train, y_train = train_data['tokens'], train_data['ner_tags']
 X_val, y_val = val_data['tokens'], val_data['ner_tags']
 X_test, y_test = test_data['tokens'], test_data['ner_tags']
 
+
 """# Original"""
 
-# Load the pre-trained tokeniser
-tokeniser_org = AutoTokenizer.from_pretrained('bert-base-cased', model_max_length=SEQ_LEN)
+# Load the pre-trained tokenizer
+tokenizer_org = AutoTokenizer.from_pretrained('bert-base-cased', model_max_length=SEQ_LEN)
 
 # Apply masked-language modelling
 mlm_org = get_mlm(MODEL, mlm_args)
-tune('mlm_org', tokeniser_org, mlm_org, tune_args, X_train, X_valv)
+tune('mlm_org', tokenizer_org, mlm_org, tune_args, X_train, X_valv)
 
 # Load the model
 ner_org = get_ner('mlm_org', ner_args)
 shutil.rmtree('mlm_org')
 
 # Apply downstream fine-tuning 
-train(tokeniser_org, ner_org, train_args, X_train, y_train, X_val, y_val)
+train(tokenizer_org, ner_org, train_args, X_train, y_train, X_val, y_val)
+
 
 """# 100% Vocab Size"""
 
-# Load the tokeniser
-tokeniser_100 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'conll', 'conll_100'), model_max_length=SEQ_LEN)
+# Load the tokenizer
+tokenizer_100 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_100'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_100 = get_mlm(MODEL, mlm_args)
-vocab_transfer(tokeniser_org, tokeniser_100, mlm_100, TRANSFER)
+vocab_transfer(tokenizer_org, tokenizer_100, mlm_100, TRANSFER)
 
 # Apply masked-language modelling
-tune('mlm_100', tokeniser_100, mlm_100, tune_args, X_train, X_val)
+tune('mlm_100', tokenizer_100, mlm_100, tune_args, X_train, X_val)
 
 # Load the model
 ner_100 = get_ner('mlm_100', ner_args)
 shutil.rmtree('mlm_100') 
 
 # Apply downstream fine-tuning 
-train(tokeniser_100, ner_100, train_args, X_train, y_train, X_val, y_val)
+train(tokenizer_100, ner_100, train_args, X_train, y_train, X_val, y_val)
+
 
 """# 75% Vocab Size"""
 
-# Load the tokeniser
-tokeniser_75 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'conll', 'conll_75'), model_max_length=SEQ_LEN)
+# Load the tokenizer
+tokenizer_75 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_75'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_75 = get_mlm(MODEL, mlm_args)
-vocab_transfer(tokeniser_org, tokeniser_75, mlm_75, TRANSFER)
+vocab_transfer(tokenizer_org, tokenizer_75, mlm_75, TRANSFER)
 
 # Apply masked-language modelling
-tune('mlm_75', tokeniser_75, mlm_75, tune_args, X_train, X_val)
+tune('mlm_75', tokenizer_75, mlm_75, tune_args, X_train, X_val)
 
 # Load the model
 ner_75 = get_ner('mlm_75', ner_args)
 shutil.rmtree('mlm_75')
 
 # Apply downstream fine-tuning 
-train(tokeniser_75, ner_75, train_args, X_train, y_train, X_val, y_val)
+train(tokenizer_75, ner_75, train_args, X_train, y_train, X_val, y_val)
+
 
 """# 50% Vocab Size"""
 
-# Load the tokeniser
-tokeniser_50 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'conll', 'conll_50'), model_max_length=SEQ_LEN)
+# Load the tokenizer
+tokenizer_50 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_50'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_50 = get_mlm(MODEL, mlm_args)
-vocab_transfer(tokeniser_org, tokeniser_50, mlm_50, TRANSFER)
+vocab_transfer(tokenizer_org, tokenizer_50, mlm_50, TRANSFER)
 
 # Apply masked-language modelling
-tune('mlm_50', tokeniser_50, mlm_50, tune_args, X_train, X_val)
+tune('mlm_50', tokenizer_50, mlm_50, tune_args, X_train, X_val)
 
 # Load the model
 ner_50 = get_ner('mlm_50', ner_args)
 shutil.rmtree('mlm_50')
 
 # Apply downstream fine-tuning 
-train(tokeniser_50, ner_50, train_args, X_train, y_train, X_val, y_val)
+train(tokenizer_50, ner_50, train_args, X_train, y_train, X_val, y_val)
+
 
 """# 25% Vocab Size"""
 
-# Load the tokeniser
-tokeniser_25 = AutoTokenizer.from_pretrained(os.path.join('tokenisers', 'conll', 'conll_25'), model_max_length=SEQ_LEN)
+# Load the tokenizer
+tokenizer_25 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_25'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_25 = get_mlm(MODEL, mlm_args)
-vocab_transfer(tokeniser_org, tokeniser_25, mlm_25, TRANSFER)
+vocab_transfer(tokenizer_org, tokenizer_25, mlm_25, TRANSFER)
 
 # Apply masked-language modelling
-tune('mlm_25', tokeniser_25, mlm_25, tune_args, X_train, X_val)
+tune('mlm_25', tokenizer_25, mlm_25, tune_args, X_train, X_val)
 
 # Load the model
 ner_25 = get_ner('mlm_25', ner_args)
 shutil.rmtree('mlm_25')
 
 # Apply downstream fine-tuning 
-train(tokeniser_25, ner_25, train_args, X_train, y_train, X_val, y_val)
+train(tokenizer_25, ner_25, train_args, X_train, y_train, X_val, y_val)
+
 
 """# Model Analysis"""
 
 # Initialise the analyser
 analyser = NERAnalyser({
-    'Original': (tokeniser_org, ner_org), 
-    'NLL-100': (tokeniser_100, ner_100), 
-    'NLL-75': (tokeniser_75, ner_75), 
-    'NLL-50': (tokeniser_50, ner_50), 
-    'NLL-25': (tokeniser_25, ner_25)
+    'Original': (tokenizer_org, ner_org), 
+    'NLL-100': (tokenizer_100, ner_100), 
+    'NLL-75': (tokenizer_75, ner_75), 
+    'NLL-50': (tokenizer_50, ner_50), 
+    'NLL-25': (tokenizer_25, ner_25)
   }, X_test, y_test)
 
 # Compute the statistics

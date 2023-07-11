@@ -7,31 +7,31 @@ from tqdm import tqdm
 
 
 # Defined functions
-def train_tokeniser(name, old_tokeniser, data, vocab_size):
+def train_tokenizer(name, old_tokenizer, data, vocab_size):
 
-  new_tokeniser = old_tokeniser.train_new_from_iterator(data, vocab_size)
+  new_tokenizer = old_tokenizer.train_new_from_iterator(data, vocab_size)
     
-  # Save the tokeniser
+  # Save the tokenizer
   if name is not None:
     path = os.getcwd()
     os.makedirs(os.path.join(path, name))
-    new_tokeniser.save_pretrained(os.path.join(path, name))
+    new_tokenizer.save_pretrained(os.path.join(path, name))
   
-  return new_tokeniser
+  return new_tokenizer
 
 
 # Defined classes
 class TokenAnalyser:
 
-  def __init__(self, tokenisers, data):
+  def __init__(self, tokenizers, data):
     
-    self.names = list(tokenisers.keys())
+    self.names = list(tokenizers.keys())
     
     self.models = []
     self.markers = []
     self.linestyles = []
     
-    for model, marker, linestyle in list(tokenisers.values()):
+    for model, marker, linestyle in list(tokenizers.values()):
       self.models.append(model)
       self.markers.append(marker)
       self.linestyles.append(linestyle)
@@ -41,8 +41,8 @@ class TokenAnalyser:
   
   def compute(self):
       
-    def count_tokens(text, tokeniser):
-      tokens = tokeniser.tokenize(text)
+    def count_tokens(text, tokenizer):
+      tokens = tokenizer.tokenize(text)
       return len(tokens)
 
     df = pd.DataFrame()
@@ -55,7 +55,7 @@ class TokenAnalyser:
     
     print(self.results.describe().apply(lambda s: s.apply(lambda x: round(x))))
   
-  # Plot the histogram of the tokeniser's distribution
+  # Plot the histogram of the tokenizer's distribution
   def plot_stats(self):
     
     plt.rcParams.update({'font.size': 20})
@@ -70,12 +70,12 @@ class TokenAnalyser:
     plt.legend(loc='upper right')
     plt.show()
   
-  # Compare the features of the tokeniser's distribution
-  def compare_vocabs(self, tokeniser):
+  # Compare the features of the tokenizer's distribution
+  def compare_vocabs(self, tokenizer):
 
     df = pd.DataFrame(['Size', 'Common', 'Different', 'Similarity'], columns=['Vocabulary'])
 
-    old_vocab = tokeniser.get_vocab()
+    old_vocab = tokenizer.get_vocab()
     for i, name in enumerate(self.names):
       new_vocab = self.models[i].get_vocab()
       

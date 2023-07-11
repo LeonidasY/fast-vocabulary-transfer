@@ -1,9 +1,5 @@
-import json
-import os
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import torch
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from torch.utils.data import Dataset

@@ -1,6 +1,5 @@
-# Import the libraries
 import os
-from transformers import AutoTokenizer, AutoModelForMaskedLM, Trainer, TrainingArguments
+from transformers import AutoTokenizer, AutoModelForMaskedLM, TrainingArguments
 
 import sys
 sys.path.append(os.path.join('..', 'utils'))
@@ -22,6 +21,7 @@ def distil(name, s_model, t_model, tokeniser, args, X_train, X_val, is_split, ch
   train_data = MLMDataset(X_train, tokeniser, is_split=is_split)
   val_data = MLMDataset(X_val, tokeniser, is_split=is_split)
   distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
+
 
 """# Experimental Setup"""
 
@@ -63,6 +63,7 @@ distil_args = DistillationArguments(
   alpha_cos=0.5
 )
 
+
 """# Data Preparation"""
 
 # Load the dataset
@@ -76,6 +77,7 @@ train_data_2, val_data_2, _ = load_data('conll')
 
 # Split the dataset
 X_train_2, X_val_2 = train_data_2['tokens'], val_data_2['tokens']
+
 
 """# Knowledge Distillation"""
 
