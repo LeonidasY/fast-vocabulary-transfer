@@ -4,14 +4,14 @@ The repository contains the code for the paper titled **Fast Vocabulary Transfer
 ## Usage
 
 ### Distillation
-The "distillation" folder contains the scripts required to distil models using the ADE, LEDGAR or CoNLL datasets respectively. The hyperparameters for distillation can be set within the "Set the hyperparameters" section of the script.
+The "distillation" folder contains the scripts required to distil models using the ADE, LEDGAR or CoNLL datasets respectively. The distilled models will be saved in a separate "models" folder.
 
 ### Training
-The "training" folder contains the scripts required to fine-tune and evaluate the models on the ADE, LEDGAR or CONLL datasets respectively. The hyperparameters for fine-tuning can be set within the "Set the hyperparameters" section of the script.
+The "training" folder contains the scripts required to fine-tune and evaluate the models on the ADE, LEDGAR or CONLL datasets respectively. 
 
-To run the script with a distilled model, simply place the "pytorch_model.bin" and "config.json" files of the saved distilled model in a folder titled "DATASET-double", where DATASET is the name of the dataset used in lowercase (ade, ledgar, conll).
+To run the script with a distilled model, simply replace the MODEL variable within the script with "DATASET-double", where DATASET is the name of the dataset used in lowercase (ade, ledgar, conll).
 
-For example, to use a distilled model with "ade_train.py", simply put the two files mentioned above in a folder titled "ade-double" before running the script.
+For example, to use a distilled model with "ade_train.py", simply change the MODEL variable to "ade-double" before running the script.
 
 ### Vocabulary Transfer
 The types of vocabulary transfer available for each test script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT) and Weighted Vocabulary Transfer (WVT). Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.

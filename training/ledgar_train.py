@@ -108,7 +108,7 @@ X_test, y_test = test_data['text'], test_data['label']
 tokenizer_org = AutoTokenizer.from_pretrained('bert-base-cased', model_max_length=SEQ_LEN)
 
 # Apply masked-language modelling
-mlm_org = get_mlm(MODEL, mlm_args)
+mlm_org = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
 tune('mlm_org', tokenizer_org, mlm_org, tune_args, X_train, X_val)
 
 # Load the model
@@ -125,7 +125,7 @@ train(tokenizer_org, clf_org, train_args, X_train, y_train, X_val, y_val)
 tokenizer_100 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'ledgar', 'ledgar_100'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
-mlm_100 = get_mlm(MODEL, mlm_args)
+mlm_100 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
 vocab_transfer(tokenizer_org, tokenizer_100, mlm_100, TRANSFER)
 
 # Apply masked-language modelling
@@ -145,7 +145,7 @@ train(tokenizer_100, clf_100, train_args, X_train, y_train, X_val, y_val)
 tokenizer_75 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'ledgar', 'ledgar_75'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
-mlm_75 = get_mlm(MODEL, mlm_args)
+mlm_75 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
 vocab_transfer(tokenizer_org, tokenizer_75, mlm_75, TRANSFER)
 
 # Apply masked-language modelling
@@ -165,7 +165,7 @@ train(tokenizer_75, clf_75, train_args, X_train, y_train, X_val, y_val)
 tokenizer_50 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'ledgar', 'ledgar_50'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
-mlm_50 = get_mlm(MODEL, mlm_args)
+mlm_50 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
 vocab_transfer(tokenizer_org, tokenizer_50, mlm_50, TRANSFER)
 
 # Apply masked-language modelling
@@ -185,7 +185,7 @@ train(tokenizer_50, clf_50, train_args, X_train, y_train, X_val, y_val)
 tokenizer_25 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'ledgar', 'ledgar_25'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
-mlm_25 = get_mlm(MODEL, mlm_args)
+mlm_25 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
 vocab_transfer(tokenizer_org, tokenizer_25, mlm_25, TRANSFER)
 
 # Apply masked-language modelling

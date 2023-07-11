@@ -23,7 +23,7 @@ def remove_layers(model, layers):
   model.config.num_hidden_layers = len(oldModuleList) - len(layers)
 
 
-def distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint):
+def distil_model(path, s_model, t_model, args, train_data, val_data, checkpoint):
     
   trainer = DistilTrainer(
     model=s_model,
@@ -36,20 +36,20 @@ def distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
   
   trainer.train(resume_from_checkpoint=checkpoint)
   
-  if name is not None:
+  if path is not None:
   
-    path = os.getcwd()
-    os.makedirs(os.path.join(path, name))
+    if not os.path.isdir(path):
+      os.makedirs(path)
   
     # Save the model
     s_model.config.output_hidden_states = False
-    s_model.save_pretrained(os.path.join(path, name))
+    s_model.save_pretrained(path)
 
     # Save the model's loss
     train_epoch, train_loss = [], []
     eval_epoch, eval_loss = [], []
   
-    with open(os.path.join(path, name, 'scores.txt'),'w') as file:
+    with open(os.path.join(path, 'scores.txt'),'w') as file:
     
       for obj in trainer.state.log_history:
       
@@ -74,7 +74,7 @@ def distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc='upper right')
   
-    plt.savefig(os.path.join(path, name, 'plots.png'))
+    plt.savefig(os.path.join(path, 'plots.png'))
 
 
 # Defined classes
