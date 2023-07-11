@@ -122,7 +122,7 @@ train(tokenizer_org, ner_org, train_args, X_train, y_train, X_val, y_val)
 """# 100% Vocab Size"""
 
 # Load the tokenizer
-tokenizer_100 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_100'), model_max_length=SEQ_LEN)
+tokenizer_100 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'conll', 'conll_100'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_100 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
@@ -142,7 +142,7 @@ train(tokenizer_100, ner_100, train_args, X_train, y_train, X_val, y_val)
 """# 75% Vocab Size"""
 
 # Load the tokenizer
-tokenizer_75 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_75'), model_max_length=SEQ_LEN)
+tokenizer_75 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'conll', 'conll_75'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_75 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
@@ -162,7 +162,7 @@ train(tokenizer_75, ner_75, train_args, X_train, y_train, X_val, y_val)
 """# 50% Vocab Size"""
 
 # Load the tokenizer
-tokenizer_50 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_50'), model_max_length=SEQ_LEN)
+tokenizer_50 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'conll', 'conll_50'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_50 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
@@ -182,7 +182,7 @@ train(tokenizer_50, ner_50, train_args, X_train, y_train, X_val, y_val)
 """# 25% Vocab Size"""
 
 # Load the tokenizer
-tokenizer_25 = AutoTokenizer.from_pretrained(os.path.join('tokenizers', 'conll', 'conll_25'), model_max_length=SEQ_LEN)
+tokenizer_25 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'conll', 'conll_25'), model_max_length=SEQ_LEN)
 
 # Apply vocabulary transfer
 mlm_25 = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)

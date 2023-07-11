@@ -98,6 +98,4 @@ remove_layers(s_model, [1, 3, 5, 7, 9, 11])
 
 # Apply knowledge distillation
 distil(None, s_model, t_model, s_tokeniser, distil_args, X_train_1, X_val_1, checkpoint=False)
-distil(
-  os.path.join('..', 'models', 'ade-double'), s_model, t_model, s_tokeniser, distil_args, X_train_2, X_val_2, checkpoint=False
-)
+distil(os.path.join('..', 'models', 'ade-double'), s_model, t_model, s_tokeniser, distil_args, X_train_2, X_val_2, checkpoint=False)
