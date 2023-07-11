@@ -46,10 +46,10 @@ def train_model(model, args, train_data, val_data):
 # Defined classes
 class NERDataset(Dataset):
 
-  def __init__(self, data, tokeniser, labels=None):
+  def __init__(self, data, tokenizer, labels=None):
     
     self.data = list(data)
-    self.tokeniser = tokeniser
+    self.tokenizer = tokenizer
     self.labels = list(labels) if labels is not None else labels
 
   def __len__(self):
@@ -58,7 +58,7 @@ class NERDataset(Dataset):
       
   def __getitem__(self, idx):
     
-    tokens = self.tokeniser(
+    tokens = self.tokenizer(
       text=self.data[idx],
       padding='max_length', 
       truncation='longest_first',
@@ -117,11 +117,11 @@ class NERAnalyser:
   def __init__(self, transformers, X_test, y_test):
     
     self.names = list(transformers.keys())
-    self.tokenisers = []
+    self.tokenizers = []
     self.models = []
     
-    for tokeniser, model in transformers.values():
-      self.tokenisers.append(tokeniser)
+    for tokenizer, model in transformers.values():
+      self.tokenizers.append(tokenizer)
       self.models.append(model)
     
     self.X_test = X_test
@@ -140,7 +140,7 @@ class NERAnalyser:
     for i, name in enumerate(self.names):
       
       # Get the predictions
-      data = NERDataset(self.X_test, self.tokenisers[i], self.y_test)
+      data = NERDataset(self.X_test, self.tokenizers[i], self.y_test)
       trainer = Trainer(self.models[i], args=test_args)
       
       y_pred = trainer.predict(data)

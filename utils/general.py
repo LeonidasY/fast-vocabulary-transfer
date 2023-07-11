@@ -74,10 +74,10 @@ def init_model(model_init, args):
   return trainer.model
 
 
-def vocab_transfer(old_tokeniser, new_tokeniser, model, init_type):
+def vocab_transfer(old_tokenizer, new_tokenizer, model, init_type):
 
-  old_vocab = old_tokeniser.get_vocab()
-  new_vocab = new_tokeniser.get_vocab()
+  old_vocab = old_tokenizer.get_vocab()
+  new_vocab = new_tokenizer.get_vocab()
 
   old_matrix = model.get_input_embeddings().weight
   new_matrix = torch.zeros(len(new_vocab), old_matrix.shape[1])
@@ -97,7 +97,7 @@ def vocab_transfer(old_tokeniser, new_tokeniser, model, init_type):
         
         # Remove '##' from the beginning of the subtoken
         new_token = re.sub("^##", '', new_token)
-        partition = old_tokeniser.tokenize(new_token)
+        partition = old_tokenizer.tokenize(new_token)
 
         new_embedding = []
         for old_token in partition:
@@ -121,7 +121,7 @@ def vocab_transfer(old_tokeniser, new_tokeniser, model, init_type):
           
         # Remove '##' from the beginning of the subtoken
         new_token = re.sub("^##", '', new_token)
-        partition = old_tokeniser.tokenize(new_token)
+        partition = old_tokenizer.tokenize(new_token)
 
         new_embedding = []
         new_len = len(new_token)
@@ -169,14 +169,14 @@ def tune_model(name, model, args, train_data, val_data):
 # Defined classes
 class MLMDataset(Dataset):
 
-  def __init__(self, data, tokeniser, is_split=False):  
+  def __init__(self, data, tokenizer, is_split=False):  
     
     self.data = list(data)
-    self.tokeniser = tokeniser
+    self.tokenizer = tokenizer
     self.is_split = is_split
     
-    vocab = self.tokeniser.get_vocab()
-    special_tokens = self.tokeniser.special_tokens_map
+    vocab = self.tokenizer.get_vocab()
+    special_tokens = self.tokenizer.special_tokens_map
     
     self.special_ids = [vocab[special_token] for special_token in special_tokens.values()]
     self.mask_id = vocab[special_tokens['mask_token']]
@@ -204,7 +204,7 @@ class MLMDataset(Dataset):
     
   def __get_inputs(self, text):
         
-    tokens = self.tokeniser(
+    tokens = self.tokenizer(
       text=text,
       truncation='longest_first',
       padding='max_length',
