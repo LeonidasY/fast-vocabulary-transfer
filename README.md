@@ -17,12 +17,12 @@ The "training" folder contains the scripts required to fine-tune and evaluate th
 CUDA_VISIBLE_DEVICES=0 python ade_train.py --transfer FVT --seed 0 --model bert-base-cased
 ```
 
-To run the script with a distilled model, simply change the model flag with "DATASET-double", where DATASET is the name of the dataset used in lowercase (ade, ledgar, conll). 
+To run the script with a distilled model, simply change the model flag with "DATASET-double", where DATASET is the name of the dataset used in lowercase (ade, ledgar, conll).
 
 For example, to use a distilled model with "ade_train.py", simply change the model flag to "ade-double" before running the script.
 
 ### Vocabulary Transfer
-The types of vocabulary transfer available for each test script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT) and Weighted Vocabulary Transfer (WVT). 
+The types of vocabulary transfer available for each training script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT) and Weighted Vocabulary Transfer (WVT).
 
 Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.
 
