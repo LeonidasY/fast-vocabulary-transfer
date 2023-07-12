@@ -146,7 +146,7 @@ def vocab_transfer(old_tokenizer, new_tokenizer, model, init_type):
   model.tie_weights()
 
 
-def tune_model(name, model, args, train_data, val_data):
+def tune_model(model, args, train_data, val_data):
     
   trainer = Trainer(
     model=model,
@@ -159,11 +159,7 @@ def tune_model(name, model, args, train_data, val_data):
   trainer.train()
   
   # Save the model
-  if os.path.isdir(f'{os.getcwd()}/{name}'):
-    shutil.rmtree(f'{os.getcwd()}/{name}')
-  
-  os.makedirs(f'{os.getcwd()}/{name}')
-  model.save_pretrained(f'{os.getcwd()}/{name}')
+  model.save_pretrained(args.output_dir)
 
 
 # Defined classes

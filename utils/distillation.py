@@ -38,9 +38,6 @@ def distil_model(path, s_model, t_model, args, train_data, val_data, checkpoint)
   
   if path is not None:
   
-    if not os.path.isdir(path):
-      os.makedirs(path)
-  
     # Save the model
     s_model.config.output_hidden_states = False
     s_model.save_pretrained(path)

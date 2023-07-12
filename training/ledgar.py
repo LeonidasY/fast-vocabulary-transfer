@@ -12,6 +12,7 @@ from general import MLMDataset
 from classification import train_model
 from classification import CLFDataset, CLFAnalyser
 
+
 # Defined functions
 def get_mlm(model_name, args):
   def masked_lm():
@@ -19,10 +20,10 @@ def get_mlm(model_name, args):
   mlm = init_model(masked_lm, args)
   return mlm
 
-def tune(name, tokenizer, model, args, X_train, X_val):
+def tune(tokenizer, model, args, X_train, X_val):
   train_data = MLMDataset(X_train, tokenizer)
   val_data = MLMDataset(X_val, tokenizer)
-  tune_model(name, model, args, train_data, val_data)
+  tune_model(model, args, train_data, val_data)
 
 def get_clf(model_name, args):
   def classifier():
@@ -126,22 +127,28 @@ def main():
 
     """# Original"""
 
+    path = os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'mlm_org')
+
     # Load the pre-trained tokenizer
     tokenizer_org = AutoTokenizer.from_pretrained('bert-base-cased', model_max_length=SEQ_LEN)
 
     # Apply masked-language modelling
     mlm_org = get_mlm(MODEL if MODEL == 'bert-base-cased' else os.path.join('..', 'models', MODEL), mlm_args)
-    tune('mlm_org', tokenizer_org, mlm_org, tune_args, X_train, X_val)
+    tune_args.output_dir = path
+    tune(tokenizer_org, mlm_org, tune_args, X_train, X_val)
 
     # Load the model
-    clf_org = get_clf('mlm_org', clf_args)
-    shutil.rmtree('mlm_org')
+    clf_org = get_clf(tune_args.output_dir, clf_args)
+    shutil.rmtree(tune_args.output_dir)
 
-    # Apply downstream fine-tuning 
+    # Apply downstream fine-tuning
+    train_args.output_dir = path
     train(tokenizer_org, clf_org, train_args, X_train, y_train, X_val, y_val)
 
 
     """# 100% Vocab Size"""
+
+    path = os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'mlm_100')
 
     # Load the tokenizer
     tokenizer_100 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'ledgar', 'ledgar_100'), model_max_length=SEQ_LEN)
@@ -151,17 +158,21 @@ def main():
     vocab_transfer(tokenizer_org, tokenizer_100, mlm_100, TRANSFER)
 
     # Apply masked-language modelling
-    tune('mlm_100', tokenizer_100, mlm_100, tune_args, X_train, X_val)
+    tune_args.output_dir = path
+    tune(tokenizer_100, mlm_100, tune_args, X_train, X_val)
 
     # Load the model
-    clf_100 = get_clf('mlm_100', clf_args)
-    shutil.rmtree('mlm_100')
+    clf_100 = get_clf(tune_args.output_dir, clf_args)
+    shutil.rmtree(tune_args.output_dir)
 
-    # Apply downstream fine-tuning 
+    # Apply downstream fine-tuning
+    train_args.output_dir = path
     train(tokenizer_100, clf_100, train_args, X_train, y_train, X_val, y_val)
 
 
     """# 75% Vocab Size"""
+
+    path = os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'mlm_75')
 
     # Load the tokenizer
     tokenizer_75 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'ledgar', 'ledgar_75'), model_max_length=SEQ_LEN)
@@ -171,17 +182,21 @@ def main():
     vocab_transfer(tokenizer_org, tokenizer_75, mlm_75, TRANSFER)
 
     # Apply masked-language modelling
-    tune('mlm_75', tokenizer_75, mlm_75, tune_args, X_train, X_val)
+    tune_args.output_dir = path
+    tune(tokenizer_75, mlm_75, tune_args, X_train, X_val)
 
     # Load the model
-    clf_75 = get_clf('mlm_75', clf_args)
-    shutil.rmtree('mlm_75')
+    clf_75 = get_clf(tune_args.output_dir, clf_args)
+    shutil.rmtree(tune_args.output_dir)
 
-    # Apply downstream fine-tuning 
+    # Apply downstream fine-tuning
+    train_args.output_dir = path
     train(tokenizer_75, clf_75, train_args, X_train, y_train, X_val, y_val)
 
 
     """# 50% Vocab Size"""
+
+    path = os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'mlm_50')
 
     # Load the tokenizer
     tokenizer_50 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'ledgar', 'ledgar_50'), model_max_length=SEQ_LEN)
@@ -191,17 +206,21 @@ def main():
     vocab_transfer(tokenizer_org, tokenizer_50, mlm_50, TRANSFER)
 
     # Apply masked-language modelling
-    tune('mlm_50', tokenizer_50, mlm_50, tune_args, X_train, X_val)
+    tune_args.output_dir = path
+    tune(tokenizer_50, mlm_50, tune_args, X_train, X_val)
 
     # Load the model
-    clf_50 = get_clf('mlm_50', clf_args)
-    shutil.rmtree('mlm_50')
+    clf_50 = get_clf(tune_args.output_dir, clf_args)
+    shutil.rmtree(tune_args.output_dir)
 
-    # Apply downstream fine-tuning 
+    # Apply downstream fine-tuning
+    train_args.output_dir = path
     train(tokenizer_50, clf_50, train_args, X_train, y_train, X_val, y_val)
 
 
     """# 25% Vocab Size"""
+
+    path = os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'mlm_25')
 
     # Load the tokenizer
     tokenizer_25 = AutoTokenizer.from_pretrained(os.path.join('..', 'tokenizers', 'ledgar', 'ledgar_25'), model_max_length=SEQ_LEN)
@@ -211,13 +230,15 @@ def main():
     vocab_transfer(tokenizer_org, tokenizer_25, mlm_25, TRANSFER)
 
     # Apply masked-language modelling
-    tune('mlm_25', tokenizer_25, mlm_25, tune_args, X_train, X_val)
+    tune_args.output_dir = path
+    tune(tokenizer_25, mlm_25, tune_args, X_train, X_val)
 
     # Load the model
-    clf_25 = get_clf('mlm_25', clf_args)
-    shutil.rmtree('mlm_25')
+    clf_25 = get_clf(tune_args.output_dir, clf_args)
+    shutil.rmtree(tune_args.output_dir)
 
-    # Apply downstream fine-tuning 
+    # Apply downstream fine-tuning
+    train_args.output_dir = path
     train(tokenizer_25, clf_25, train_args, X_train, y_train, X_val, y_val)
 
 
@@ -239,7 +260,7 @@ def main():
     analyser.get_stats()
 
     # Save the statitics
-    analyser.save_stats(os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}', 'results.csv'))
+    analyser.save_stats(os.path.join('..', 'logs', 'ledgar', TRANSFER, MODEL, f'seed_{i}'))
 
 
 if __name__ == '__main__':

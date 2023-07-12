@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import pandas as pd
 
 from seqeval.metrics import accuracy_score, precision_score, recall_score, f1_score
@@ -41,6 +42,9 @@ def train_model(model, args, train_data, val_data):
   )
 
   trainer.train()
+
+  # Save the model
+  model.save_pretrained(args.output_dir)
 
 
 # Defined classes
@@ -178,4 +182,6 @@ class NERAnalyser:
 
   def save_stats(self, path):
 
-    self.results.to_csv(path, index=False)
+    if not os.path.isdir(path):
+      os.makedirs(path)
+    self.results.to_csv(os.path.join(path, 'results.csv'), index=False)

@@ -8,6 +8,7 @@ from utils.general import MLMDataset
 from utils.distillation import distil_model, remove_layers
 from utils.distillation import DistillationArguments
 
+
 # Defined functions
 def get_mlm(model_name, args):
   def masked_lm():
@@ -15,10 +16,10 @@ def get_mlm(model_name, args):
   mlm = init_model(masked_lm, args)
   return mlm
 
-def distil(name, s_model, t_model, tokeniser, args, X_train, X_val, is_split, checkpoint):
+def distil(path, s_model, t_model, tokeniser, args, X_train, X_val, is_split, checkpoint):
   train_data = MLMDataset(X_train, tokeniser, is_split=is_split)
   val_data = MLMDataset(X_val, tokeniser, is_split=is_split)
-  distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
+  distil_model(path, s_model, t_model, args, train_data, val_data, checkpoint)
 
 
 """# Experimental Setup"""
