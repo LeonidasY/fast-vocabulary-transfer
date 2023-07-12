@@ -119,3 +119,7 @@ class CLFAnalyser:
   def get_stats(self):
         
     print(self.results)
+
+  def save_stats(self, path):
+
+    self.results.to_csv(path, index=False)

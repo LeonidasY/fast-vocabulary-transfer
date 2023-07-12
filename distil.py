@@ -2,14 +2,11 @@ import argparse
 import os
 from transformers import AutoTokenizer, AutoModelForMaskedLM, TrainingArguments
 
-import sys
-sys.path.append(os.path.join('..', 'utils'))
+from utils.general import load_data, init_model
+from utils.general import MLMDataset
 
-from general import load_data, init_model
-from general import MLMDataset
-
-from distillation import distil_model, remove_layers
-from distillation import DistillationArguments
+from utils.distillation import distil_model, remove_layers
+from utils.distillation import DistillationArguments
 
 # Defined functions
 def get_mlm(model_name, args):
@@ -18,9 +15,9 @@ def get_mlm(model_name, args):
   mlm = init_model(masked_lm, args)
   return mlm
 
-def distil(name, s_model, t_model, tokeniser, args, X_train, X_val, checkpoint):
-  train_data = MLMDataset(X_train, tokeniser)
-  val_data = MLMDataset(X_val, tokeniser)
+def distil(name, s_model, t_model, tokeniser, args, X_train, X_val, is_split, checkpoint):
+  train_data = MLMDataset(X_train, tokeniser, is_split=is_split)
+  val_data = MLMDataset(X_val, tokeniser, is_split=is_split)
   distil_model(name, s_model, t_model, args, train_data, val_data, checkpoint)
 
 
@@ -32,16 +29,19 @@ def main():
   parser = argparse.ArgumentParser()
 
   parser.add_argument(
-    '--seed',
-    type=int,
-    required=True,
-    help='The seed to use.'
+    '--data', 
+    type=str, 
+    choices=['ade', 'ledgar', 'patent'], 
+    required=True, 
+    help='The dataset to use.'
   )
 
   args = parser.parse_args()
 
   # Set the hyperparameters
-  SEED = args.seed
+  DATA = args.data
+  
+  SEED = 0
   SEQ_LEN = 64
   BATCH_SIZE = 64
   EPOCHS = 10
@@ -85,16 +85,13 @@ def main():
   X_train_1, X_val_1 = train_data_1['text'], val_data_1['text']
 
   # Load the dataset
-  train_data_2, val_data_2, _ = load_data('ledgar')
+  train_data_2, val_data_2, _ = load_data(DATA)
 
   # Split the dataset
   X_train_2, X_val_2 = train_data_2['text'], val_data_2['text']
 
 
   """# Knowledge Distillation"""
-
-  # Load the teacher tokeniser
-  t_tokeniser = AutoTokenizer.from_pretrained(TEACHER, model_max_length=SEQ_LEN)
 
   # Load the teacher model
   t_model = get_mlm(TEACHER, mlm_args)
@@ -109,9 +106,17 @@ def main():
   remove_layers(s_model, [1, 3, 5, 7, 9, 11])
 
   # Apply knowledge distillation
-  distil(None, s_model, t_model, s_tokeniser, distil_args, X_train_1, X_val_1, checkpoint=False)
+  distil(None, s_model, t_model, s_tokeniser, distil_args, X_train_1, X_val_1, is_split=False, checkpoint=False)
   distil(
-    os.path.join('..', 'models', 'ledgar-double'), s_model, t_model, s_tokeniser, distil_args, X_train_2, X_val_2, checkpoint=False
+    os.path.join('models', DATA), 
+    s_model, 
+    t_model, 
+    s_tokeniser, 
+    distil_args, 
+    X_train_2, 
+    X_val_2, 
+    is_split=True if DATA == 'conll' else False, 
+    checkpoint=False
   )
 
 
