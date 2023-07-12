@@ -4,23 +4,23 @@ The repository contains the code for the paper titled **Fast Vocabulary Transfer
 ## Usage
 
 ### Distillation
-The distil.py script is used to generate the distilled models using the ADE, LEDGAR or CoNLL datasets. The models will be saved in a separate "models" folder. The script can be run in the following way:
+The distil.py script is used to generate the distilled models using the ADE, LEDGAR, or CoNLL datasets. The models will be saved in a separate "models" folder. The script can be run in the following way:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python distil.py --data ade
 ```
 
 ### Training
-The "training" folder contains the scripts required to fine-tune and evaluate the models on the ADE, LEDGAR or CONLL datasets respectively. Each script can be run in the following way:
+The "training" folder contains the scripts required to fine-tune and evaluate the models on the ADE, LEDGAR, or CONLL datasets respectively. Each script can be run in the following way:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python ade.py --transfer FVT --model bert-base-cased
 ```
 
-To run the script with the distilled models, simply change the model flag with "distilled". Be sure to generate the distilled models first using the distil.py script.
+To run the script with the distilled models, simply change the model flag to "distilled". Be sure to generate the distilled models first using the distil.py script.
 
 ### Vocabulary Transfer
-The types of vocabulary transfer available for each training script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT) and Weighted Vocabulary Transfer (WVT).
+The types of vocabulary transfer available for each training script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT), and Weighted Vocabulary Transfer (WVT).
 
 Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.
 
