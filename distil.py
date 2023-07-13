@@ -32,7 +32,7 @@ def main():
   parser.add_argument(
     '--data', 
     type=str, 
-    choices=['ade', 'ledgar', 'patent'], 
+    choices=['ade', 'ledgar', 'conll'], 
     required=True, 
     help='The dataset to use.'
   )
