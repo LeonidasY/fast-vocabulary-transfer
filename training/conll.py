@@ -63,7 +63,7 @@ def main():
 
   # Set the hyperparameters
   TRANSFER = args.transfer
-  MODEL = 'conll' if args.model == 'distilled' else args.model
+  MODEL = 'conll_distilled' if args.model == 'distilled' else args.model
 
   SEQ_LEN = 64
   BATCH_SIZE = 64

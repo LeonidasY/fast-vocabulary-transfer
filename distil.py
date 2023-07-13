@@ -109,7 +109,7 @@ def main():
   # Apply knowledge distillation
   distil(None, s_model, t_model, s_tokeniser, distil_args, X_train_1, X_val_1, is_split=False, checkpoint=False)
   distil(
-    os.path.join('models', DATA), 
+    os.path.join('models', f'{DATA}_distilled'), 
     s_model, 
     t_model, 
     s_tokeniser, 
