@@ -89,7 +89,11 @@ def main():
   train_data_2, val_data_2, _ = load_data(DATA)
 
   # Split the dataset
-  X_train_2, X_val_2 = train_data_2['text'], val_data_2['text']
+  if DATA in ['ade', 'ledgar']:
+    X_train_2, X_val_2 = train_data_2['text'], val_data_2['text']
+  
+  else:
+    X_train_2, X_val_2 = train_data_2['tokens'], val_data_2['tokens']
 
 
   """# Knowledge Distillation"""
