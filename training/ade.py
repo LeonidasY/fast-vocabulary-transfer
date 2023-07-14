@@ -63,7 +63,7 @@ def main():
 
   # Set the hyperparameters
   TRANSFER = args.transfer
-  MODEL = 'ade_distilled' if args.model == 'distilled' else args.model
+  MODEL = 'ade-distilled' if args.model == 'distilled' else args.model
 
   SEQ_LEN = 64
   BATCH_SIZE = 64
