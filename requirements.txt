@@ -1,0 +1,10 @@
+datasets==2.1.0
+matplotlib==3.7.2
+matplotlib==3.7.1
+numpy==1.23.5
+pandas==1.5.3
+scikit_learn==1.2.2
+seqeval==1.2.2
+torch==2.0.0+cpu
+tqdm==4.65.0
+transformers==4.30.2
