@@ -39,7 +39,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
             else:
                 # if not, tokenize the new token using the old vocabulary
                 # Remove '##' from the beginning of the subtoken
-                token_partition = gen_tokenizer.tokenize(re.sub("^##", '', new_token))
+                token_partition = gen_tokenizer.tokenize(re.sub("^(##|Ġ|▁)", '', new_token))
                 tokens_map[in_vocab[new_token]] = [gen_vocab[old_token] for old_token in token_partition]
 
         return tokens_map
