@@ -1,5 +1,6 @@
 # Fast Vocabulary Transfer
-The repository wraps the code for the paper titled **Fast Vocabulary Transfer for Language Model Compression** presented at **EMNLP 2022** - Industry Track, into a ready to use library for your own application.
+
+The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) presented at **EMNLP 2022** - Industry Track, into a ready to use library for your own application.
 
 The emnlp2022 branch contains the original code base used for the paper.  
 
@@ -12,7 +13,6 @@ The emnlp2022 branch contains the original code base used for the paper.
 ```
 git clone https://github.com/LeonidasY/fast-vocabulary-transfer.git
 ```
-
 
 ## Usage
 ```python
@@ -39,10 +39,7 @@ if __name__ == "__main__":
 
 ```
 
-## Paper 
-[https://aclanthology.org/2022.emnlp-industry.41](https://aclanthology.org/2022.emnlp-industry.41)
-
-## Cite
+## Citation
 ```
 @inproceedings{gee-etal-2022-fast,
     title = "Fast Vocabulary Transfer for Language Model Compression",
