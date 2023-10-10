@@ -1,5 +1,8 @@
 # Multi-word Tokenization for Sequence Compression
-The repository contains the code for the paper titled **Multi-word Tokenization for Sequence Compression** presented at **EMNLP 2023** - Industry Track.
+
+Official code for the paper titled **Multi-word Tokenization for Sequence Compression** presented at **EMNLP 2023** - Industry Track.
+
+> Large Language Models have proven highly successful at modelling a variety of tasks. However, this comes at a steep computational cost that hinders wider industrial uptake. In this paper, we present MWT: a Multi-Word Tokenizer that goes beyond word boundaries by representing frequent multi-word expressions as single tokens. MWTs produce a more compact and efficient tokenization that yields two benefits: (1) Increase in performance due to a greater coverage of input data given a fixed sequence length budget; (2) Faster and lighter inference due to the ability to reduce the sequence length with negligible drops in performance. Our results show that MWT is more robust across shorter sequence lengths, thus allowing for major speedups via early sequence truncation.
 
 ## Usage
 
@@ -12,12 +15,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --data ade --model bert-base-cased --len 1
 
 The full options can be found in the argparse section of the [script](https://github.com/LeonidasY/fast-vocabulary-transfer/blob/emnlp2023/main.py).
 
-## Paper 
-```
-TBA soon
-```
-
-## Cite
+## Citation
 ```
 TBA soon
 ```
