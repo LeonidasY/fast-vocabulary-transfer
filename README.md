@@ -1,4 +1,4 @@
-# Multi-word Tokenizer
+# Multi-word Tokenization for Sequence Compression
 The repository contains the code for the paper titled **Multi-word Tokenization for Sequence Compression** presented at **EMNLP 2023** - Industry Track.
 
 ## Usage
