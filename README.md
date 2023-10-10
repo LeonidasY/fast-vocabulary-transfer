@@ -4,9 +4,9 @@ The repository wraps the code for the paper titled [**Fast Vocabulary Transfer f
 
 The emnlp2022 branch contains the original code base used for the paper.  
 
-**Authors:** Leonidas Gee, [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Paolo Torroni
+**Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee/), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Paolo Torroni
 
-**Affiliations** [Expert.ai](https://www.expert.ai/), University of Bologna
+**Affiliations:** University of Sussex, [Expert.ai](https://www.expert.ai/), University of Bologna
 
 ## Installation
 
