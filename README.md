@@ -1,4 +1,5 @@
 # Fast Vocabulary Transfer for Language Model Compression
+
 Official code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) presented at **EMNLP 2022** - Industry Track.
 
 > Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical do- mains and downstream tasks. Our results indi- cate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.
@@ -14,17 +15,16 @@ CUDA_VISIBLE_DEVICES=0 python ade.py --transfer FVT --model bert-base-cased
 
 To run the script with the distilled models, simply change the model flag to "distilled". Be sure to generate the distilled models first using the distil.py script.
 
+The types of vocabulary transfer available for each training script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT), and Weighted Vocabulary Transfer (WVT).
+
+Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.
+
 ### Distillation
 The distil.py script is used to generate the distilled models using the ADE, LEDGAR, or CoNLL datasets. The models will be saved in a separate "models" folder. The script can be run in the following way:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python distil.py --data ade
 ```
-
-### Vocabulary Transfer
-The types of vocabulary transfer available for each training script are Fast Vocabulary Transfer (FVT), Partial Vocabulary Transfer (PVT), and Weighted Vocabulary Transfer (WVT).
-
-Both FVT and PVT are described in the paper, while WVT is a follow-up work done to explore the effectiveness of weighted vocabulary transfer.
 
 ## Citation
 ```
