@@ -1,14 +1,14 @@
-import numpy as np
+import json
 import os
-import pandas as pd
+import numpy as np
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from torch.utils.data import Dataset
-from transformers import Trainer, TrainingArguments, EvalPrediction, EarlyStoppingCallback
+from transformers import Trainer, EvalPrediction, EarlyStoppingCallback
 
 
 # Defined functions
-def train_model(model, args, train_data, val_data):
+def train_model(args, model, train_data, val_data, checkpoint=False):
 
   def compute_metrics(p: EvalPrediction):
     preds = np.argmax(p.predictions, axis=1)
@@ -16,116 +16,72 @@ def train_model(model, args, train_data, val_data):
     return {'F1': f1}
     
   trainer = Trainer(
-    model=model,
-    args=args,
-    train_dataset=train_data,
-    eval_dataset=val_data,
-    compute_metrics=compute_metrics,
-    callbacks=[EarlyStoppingCallback(early_stopping_patience=3)]
+      model=model,
+      args=args,
+      train_dataset=train_data,
+      eval_dataset=val_data,
+      compute_metrics=compute_metrics,
+      callbacks=[EarlyStoppingCallback(early_stopping_patience=3)]
   )
-  
-  trainer.train()
+  trainer.train(resume_from_checkpoint=checkpoint)
 
   # Save the model
   model.save_pretrained(args.output_dir)
+
+  # Save the loss
+  with open(os.path.join(args.output_dir, 'loss.txt'), 'w') as file:
+      for obj in trainer.state.log_history:
+          file.write(json.dumps(obj))
+          file.write('\n\n')
+
+
+def test_model(args, model, test_data):
+  trainer = Trainer(model, args=args)
+  p = trainer.predict(test_data)
+  preds = np.argmax(p.predictions, axis=1)
+  
+  # Save the predictions
+  accuracy = accuracy_score(p.label_ids, preds)
+  precision = precision_score(p.label_ids, preds, average='macro', zero_division=0)
+  recall = recall_score(p.label_ids, preds, average='macro', zero_division=0)
+  f1 = f1_score(p.label_ids, preds, average='macro', zero_division=0)
+
+  with open(os.path.join(args.output_dir, 'results.txt'),'w') as f:
+      print(f'\nAccuracy: {accuracy:.3f}', file=f)
+      print(f'Precision: {precision:.3f}', file=f)
+      print(f'Recall: {recall:.3f}', file=f)
+      print(f'F1: {f1:.3f}\n', file=f)
+          
+  with open(os.path.join(args.output_dir, 'results.txt'),'r') as f:
+      print(f.read())
 
 
 # Defined classes
 class CLFDataset(Dataset):
 
-  def __init__(self, data, tokenizer, labels=None):
-    
+  def __init__(self, tokeniser, data, labels=None):
+    self.tokeniser = tokeniser    
     self.data = list(data)
-    self.tokenizer = tokenizer
     self.labels = list(labels) if labels is not None else labels
 
   def __len__(self):
-
     return len(self.data)
       
   def __getitem__(self, idx):
-    
-    tokens = self.tokenizer(
-      text=self.data[idx],
-      padding='max_length',
-      truncation='longest_first',
-      return_tensors='pt'
-    )
-    
+    tokens = self.tokeniser(text=self.data[idx], padding='max_length', truncation='longest_first', return_tensors='pt')
     input_ids = tokens['input_ids'].flatten()
-    token_type_ids = tokens['token_type_ids'].flatten()
+
+    try:
+      token_type_ids = tokens['token_type_ids'].flatten()
+    except:
+      token_type_ids = None
+
     attention_mask = tokens['attention_mask'].flatten()
     
     if self.labels is not None:
-        
-      sample = {
-        'input_ids': input_ids,
-        'token_type_ids': token_type_ids,
-        'attention_mask': attention_mask,
-        'labels': self.labels[idx]
-      }
-    
-    else:
-        
-      sample = {
-        'input_ids': input_ids,
-        'token_type_ids': token_type_ids,
-        'attention_mask': attention_mask
-      }
+      sample = {'input_ids': input_ids, 'token_type_ids': token_type_ids, 'attention_mask': attention_mask, 'labels': self.labels[idx]}
+    else: 
+      sample = {'input_ids': input_ids, 'token_type_ids': token_type_ids, 'attention_mask': attention_mask}
     
     return sample
-
-
-class CLFAnalyser:
-
-  def __init__(self, transformers, X_test, y_test):
-    
-    self.names = list(transformers.keys())
-    self.tokenizers = []
-    self.models = []
-    
-    for tokenizer, model in transformers.values():
-      self.tokenizers.append(tokenizer)
-      self.models.append(model)
-    
-    self.X_test = X_test
-    self.y_test = y_test
-    self.results = None
-    
-  def compute(self):
-      
-    df = pd.DataFrame(['Accuracy', 'Precision', 'Recall', 'F1'], columns=['Metric'])
-
-    test_args = TrainingArguments(
-      output_dir='output',
-      per_device_eval_batch_size=32
-    )
-    
-    for i, name in enumerate(self.names):
-      
-      # Get the predictions
-      data = CLFDataset(self.X_test, self.tokenizers[i])
-      trainer = Trainer(self.models[i], args=test_args)
-      
-      y_pred = trainer.predict(data)
-      preds = np.argmax(y_pred[0], axis=1)
-      
-      # Calculate the model's scores
-      accuracy = accuracy_score(self.y_test, preds)
-      precision = precision_score(self.y_test, preds, average='macro', zero_division=0)
-      recall = recall_score(self.y_test, preds, average='macro', zero_division=0)
-      f1 = f1_score(self.y_test, preds, average='macro', zero_division=0)
-      
-      df[name] = [round(accuracy, 3), round(precision, 3), round(recall, 3), round(f1, 3)]
-      
-    self.results = df
   
-  def get_stats(self):
-        
-    print(self.results)
-
-  def save_stats(self, path):
-
-    if not os.path.isdir(path):
-      os.makedirs(path)
-    self.results.to_csv(os.path.join(path, 'results.csv'), index=False)
