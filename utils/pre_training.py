@@ -68,6 +68,7 @@ class MLMDataset(Dataset):
     
     return tokens['input_ids'].flatten()
 
+  # Adapted from https://towardsdatascience.com/masked-language-modelling-with-bert-7d49793e5d2c
   def __mask_inputs(self, input_ids):
 
     # Create a random array for masking
