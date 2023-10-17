@@ -213,6 +213,7 @@ class MLMDataset(Dataset):
       
     return input_ids, labels
 
+  # Adapted from https://towardsdatascience.com/masked-language-modelling-with-bert-7d49793e5d2c
   def __get_mask(self, input_ids):
         
     # Create a random array for masking using a given seed
