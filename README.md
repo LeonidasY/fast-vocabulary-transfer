@@ -13,6 +13,12 @@ The main.py script is used to fine-tune and evaluate the models on the ADE, LEDG
 CUDA_VISIBLE_DEVICES=0 python main.py --data ade --model bert-base-cased --len 128
 ```
 
+The adapted and multi-word tokenizer can be used via the `--vt` and `--mw` flags respectively as shown below:
+
+```
+CUDA_VISIBLE_DEVICES=0 python main.py --data ade --model bert-base-cased --len 128 --vt 100 --mw 1000
+```
+
 The full options can be found in the argparse section of the [script](https://github.com/LeonidasY/fast-vocabulary-transfer/blob/emnlp2023/main.py).
 
 ## Citation
