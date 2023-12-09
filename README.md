@@ -35,17 +35,25 @@ if __name__ == "__main__":
     )
 
 
-# Fine-tune your in-domain model to your downstream task...
+# Fine-tune your in-domain model on your downstream task...
 ```
 
 ```python
 from mwt.mwt import MultiWordTokenizer
 
 if __name__ == "__main__":
-    # TODO
+    pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
+    # load your dataset here...
+    in_domain_data = ['A list of strings', '...']  # dummy data
 
-# Fine-tune your in-domain model to your downstream task...
+    mwt_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data=in_domain_data, n=2, top_k=1000)
+
+    # save the tokenizer
+    mwt_tokenizer.save_pretrained('new_tokenizer/')
+
+    # load the tokenizer
+    new_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data='new_tokenizer/')
 ```
 
 ## Citation
