@@ -36,7 +36,13 @@ if __name__ == "__main__":
 
 
 # Fine-tune your in-domain model to your downstream task...
+```
 
+```python
+from mwt.mwt import MultiWordTokenizer
+
+if __name__ == "__main__":
+    # TODO
 ```
 
 ## Citation
