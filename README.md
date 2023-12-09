@@ -4,7 +4,7 @@ The repository wraps the code for the paper titled [**Fast Vocabulary Transfer f
 
 The [emnlp2022](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp2022) and [emnlp2023](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp2023) branches contain the original code base used for the papers.  
 
-**Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee/), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Marco Ernandes, Paolo Torroni
+**Authors:** Leonidas Gee, [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Marco Ernandes, Paolo Torroni
 
 **Affiliations:** University of Sussex, [Expert.ai](https://www.expert.ai/), University of Bologna
 
