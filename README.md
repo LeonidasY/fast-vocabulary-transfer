@@ -1,10 +1,10 @@
 # Fast Vocabulary Transfer
 
-The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) presented at **EMNLP 2022** - Industry Track, into a ready to use library for your own application.
+The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) and [Multi-word Tokenization for Sequence Compression](https://aclanthology.org/2023.emnlp-industry.58) presented at **EMNLP 2022** and **EMNLP 2023** - Industry Track, into a ready to use library for your own application.
 
-The emnlp2022 branch contains the original code base used for the paper.  
+The emnlp2022 and emnlp2023 branches contain the original code base used for the papers.  
 
-**Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee/), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Paolo Torroni
+**Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee/), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Marco Ernandes, Paolo Torroni
 
 **Affiliations:** University of Sussex, [Expert.ai](https://www.expert.ai/), University of Bologna
 
@@ -40,20 +40,5 @@ if __name__ == "__main__":
 ```
 
 ## Citation
-```
-@inproceedings{gee-etal-2022-fast,
-    title = "Fast Vocabulary Transfer for Language Model Compression",
-    author = "Gee, Leonidas  and
-      Zugarini, Andrea  and
-      Rigutini, Leonardo  and
-      Torroni, Paolo",
-    booktitle = "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing: Industry Track",
-    month = dec,
-    year = "2022",
-    address = "Abu Dhabi, UAE",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2022.emnlp-industry.41",
-    pages = "409--416",
-    abstract = "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
-}
-```
+- Leonidas Gee, Andrea Zugarini, Leonardo Rigutini, and Paolo Torroni. 2022. Fast Vocabulary Transfer for Language Model Compression. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing: Industry Track, pages 409–416, Abu Dhabi, UAE. Association for Computational Linguistics.
+- Leonidas Gee, Leonardo Rigutini, Marco Ernandes, and Andrea Zugarini. 2023. Multi-word Tokenization for Sequence Compression. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing: Industry Track, pages 612–621, Singapore. Association for Computational Linguistics.
