@@ -51,10 +51,10 @@ if __name__ == "__main__":
     mwt_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data=in_domain_data, n=2, top_k=1000)
 
     # save the tokenizer
-    mwt_tokenizer.save_pretrained('new_tokenizer/')
+    mwt_tokenizer.save_pretrained('new_tokenizer')
 
     # load the tokenizer
-    new_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data='new_tokenizer/')
+    new_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data='new_tokenizer')
 ```
 
 ## Citation
