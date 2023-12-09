@@ -1,8 +1,8 @@
 # Fast Vocabulary Transfer
 
-The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) and [Multi-word Tokenization for Sequence Compression](https://aclanthology.org/2023.emnlp-industry.58) presented at **EMNLP 2022** and **EMNLP 2023** - Industry Track, into a ready to use library for your own application.
+The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) and [**Multi-word Tokenization for Sequence Compression**](https://aclanthology.org/2023.emnlp-industry.58) presented at **EMNLP 2022** and **EMNLP 2023** - Industry Track, into a ready to use library for your own application.
 
-The emnlp2022 and emnlp2023 branches contain the original code base used for the papers.  
+The [**emnlp2022**](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp2022) and [**emnlp2023**](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp2023) branches contain the original code base used for the papers.  
 
 **Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee/), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Marco Ernandes, Paolo Torroni
 
