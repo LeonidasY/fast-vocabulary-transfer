@@ -39,6 +39,7 @@ if __name__ == "__main__":
 ```
 
 ```python
+from transformers import AutoTokenizer
 from mwt.mwt import MultiWordTokenizer
 
 if __name__ == "__main__":
