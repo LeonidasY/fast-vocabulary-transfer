@@ -58,5 +58,39 @@ if __name__ == "__main__":
 ```
 
 ## Citation
-- Leonidas Gee, Andrea Zugarini, Leonardo Rigutini, and Paolo Torroni. 2022. Fast Vocabulary Transfer for Language Model Compression. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing: Industry Track, pages 409–416, Abu Dhabi, UAE. Association for Computational Linguistics.
-- Leonidas Gee, Leonardo Rigutini, Marco Ernandes, and Andrea Zugarini. 2023. Multi-word Tokenization for Sequence Compression. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing: Industry Track, pages 612–621, Singapore. Association for Computational Linguistics.
+```
+@inproceedings{gee-etal-2022-fast,
+    title = "Fast Vocabulary Transfer for Language Model Compression",
+    author = "Gee, Leonidas  and
+      Zugarini, Andrea  and
+      Rigutini, Leonardo  and
+      Torroni, Paolo",
+    booktitle = "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing: Industry Track",
+    month = dec,
+    year = "2022",
+    address = "Abu Dhabi, UAE",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.emnlp-industry.41",
+    pages = "409--416",
+    abstract = "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
+}
+```
+```
+@inproceedings{gee-etal-2023-multi,
+    title = "Multi-word Tokenization for Sequence Compression",
+    author = "Gee, Leonidas  and
+      Rigutini, Leonardo  and
+      Ernandes, Marco  and
+      Zugarini, Andrea",
+    editor = "Wang, Mingxuan  and
+      Zitouni, Imed",
+    booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing: Industry Track",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.emnlp-industry.58",
+    pages = "612--621",
+    abstract = "Large Language Models have proven highly successful at modelling a variety of tasks. However, this comes at a steep computational cost that hinders wider industrial uptake. In this paper, we present MWT: a Multi-Word Tokenizer that goes beyond word boundaries by representing frequent multi-word expressions as single tokens. MWTs produce a more compact and efficient tokenization that yields two benefits: (1) Increase in performance due to a greater coverage of input data given a fixed sequence length budget; (2) Faster and lighter inference due to the ability to reduce the sequence length with negligible drops in performance. Our results show that MWT is more robust across shorter sequence lengths, thus allowing for major speedups via early sequence truncation.",
+}
+```
