@@ -6,7 +6,7 @@ The [emnlp2022](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp
 
 **Authors:** [Leonidas Gee](https://www.linkedin.com/in/leonidas-gee), [Andrea Zugarini](https://it.linkedin.com/in/andrea-zugarini-930a8898), Leonardo Rigutini, Marco Ernandes, Paolo Torroni
 
-**Affiliations:** University of Sussex, [Expert.ai](https://www.expert.ai/), University of Bologna
+**Affiliations:** University of Sussex, Expert.ai, University of Bologna
 
 ## Installation
 
