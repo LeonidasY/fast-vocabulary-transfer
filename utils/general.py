@@ -33,19 +33,5 @@ def load_data(dataset):
     train_df = data['train'].to_pandas()
     val_df = data['validation'].to_pandas()
     test_df = data['test'].to_pandas()
-
-  # https://huggingface.co/datasets/conll2003
-  elif dataset == 'conll':
-
-    data = load_dataset('conll2003')
-    data = data.remove_columns(['id', 'pos_tags', 'chunk_tags'])
-    
-    train_df = data['train'].to_pandas()
-    val_df = data['validation'].to_pandas()
-    test_df = data['test'].to_pandas()
-
-  train_df = train_df.reset_index(drop=True)
-  val_df = val_df.reset_index(drop=True)
-  test_df = test_df.reset_index(drop=True)
   
   return train_df, val_df, test_df
