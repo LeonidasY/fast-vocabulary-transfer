@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
 ```python
 from transformers import AutoTokenizer
-from mwt.mwt import MultiWordTokenizer
+from mwt.mwt import GreedyMultiWordTokenizer
 
 if __name__ == "__main__":
     pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
@@ -48,13 +48,17 @@ if __name__ == "__main__":
     # load your dataset here...
     in_domain_data = ['A list of strings', '...']  # dummy data
 
-    mwt_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data=in_domain_data, n=2, top_k=1000)
+    mwt = GreedyMultiWordTokenizer(pretrained_tokenizer)
+    mwt = mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
 
-    # save the tokenizer
+    # save the ngram vocabulary
     mwt_tokenizer.save_pretrained('new_tokenizer')
 
-    # load the tokenizer
-    new_tokenizer = MultiWordTokenizer(pretrained_tokenizer, data='new_tokenizer')
+    # load the ngram vocabulary
+    new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
+
+    new_mwt = GreedyMultiWordTokenizer(new_pretrained_tokenizer)
+    new_mwt = new_mwt.load_ngrams(data_path='new_tokenizer/ngram_vocab.json')
 ```
 
 ## Citation
