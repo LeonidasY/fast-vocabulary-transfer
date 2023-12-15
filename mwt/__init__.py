@@ -6,7 +6,7 @@ import nltk
 nltk.download('punkt')
 
 
-class AbstractMultiWordTokenizer(metaclass=abc.ABCMeta):
+class AbstractWordTokenizer(metaclass=abc.ABCMeta):
     def __init__(self):
 
         self.ngram_vocab = {}
@@ -39,9 +39,9 @@ class AbstractMultiWordTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class MultiWordTokenizer(AbstractMultiWordTokenizer):
+class WordTokenizer(AbstractWordTokenizer):
     def __init__(self):
-        super(MultiWordTokenizer, self).__init__()
+        super(WordTokenizer, self).__init__()
 
     def __call__(self, text=None, text_pair=None, text_target=None, text_pair_target=None, **kwargs):
         if text is not None:

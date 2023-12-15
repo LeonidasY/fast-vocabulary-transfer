@@ -5,12 +5,12 @@ nltk.download('punkt')
 
 from collections import OrderedDict
 
-from mwt import MultiWordTokenizer
+from mwt import WordTokenizer
 
 
-class GreedyMultiWordTokenizer:
+class MultiWordTokenizer(WordTokenizer):
     """
-    Greedy Multi-word Tokenizer
+    Multi-word Tokenizer
     """
 
     def __init__(self, tokenizer):
