@@ -162,4 +162,4 @@ class WordTokenizer(AbstractWordTokenizer):
         with open(os.path.join(save_directory, 'ngram_vocab.json'), 'w') as f:
             json.dump(self.ngram_vocab, f)
 
-        return self.tokenizer._save_pretrained(save_directory, **kwargs)
+        return self.tokenizer.save_pretrained(save_directory, **kwargs)

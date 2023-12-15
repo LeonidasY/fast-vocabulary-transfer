@@ -49,7 +49,7 @@ if __name__ == "__main__":
     in_domain_data = ['A list of strings', '...']  # dummy data
 
     mwt = MultiWordTokenizer(pretrained_tokenizer)
-    mwt = mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
+    mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
 
     # save the ngram vocabulary
     mwt_tokenizer.save_pretrained('in_domain_data')
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
     new_mwt = MultiWordTokenizer(new_pretrained_tokenizer)
-    new_mwt = new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
+    new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
 ```
 
 ## Citation
