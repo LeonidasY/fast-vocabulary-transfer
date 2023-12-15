@@ -52,7 +52,7 @@ if __name__ == "__main__":
     mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
 
     # save the ngram vocabulary
-    mwt_tokenizer.save_pretrained('in_domain_data')
+    mwt.save_pretrained('in_domain_data')
 
     # load the ngram vocabulary
     new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
