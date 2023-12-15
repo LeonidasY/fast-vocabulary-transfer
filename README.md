@@ -52,13 +52,13 @@ if __name__ == "__main__":
     mwt = mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
 
     # save the ngram vocabulary
-    mwt_tokenizer.save_pretrained('new_tokenizer')
+    mwt_tokenizer.save_pretrained('in_domain_data')
 
     # load the ngram vocabulary
     new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
     new_mwt = GreedyMultiWordTokenizer(new_pretrained_tokenizer)
-    new_mwt = new_mwt.load_ngrams(data_path='new_tokenizer/ngram_vocab.json')
+    new_mwt = new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
 ```
 
 ## Citation
