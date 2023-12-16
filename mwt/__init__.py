@@ -98,9 +98,8 @@ class WordTokenizer(AbstractWordTokenizer):
         [self.n] = set(self.ngram_vocab.values())
         self.top_k = len(self.ngram_vocab)
 
-        for ngrams in self.ngram_vocab.values():
-            for ngram in ngrams.keys():
-                self.tokenizer.add_tokens(ngram)
+        for ngram in self.ngram_vocab.keys():
+            self.tokenizer.add_tokens(ngram)
 
     def preprocess_text(self, text):
         if isinstance(text, str):
