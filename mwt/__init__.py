@@ -49,7 +49,10 @@ class WordTokenizer(AbstractWordTokenizer):
             text_pair = self.preprocess_text(text_pair)
 
         return self.tokenizer(text, text_pair, **kwargs)
-    
+
+    def __getattr__(self, attr):
+        return self.tokenizer.__getattribute__(attr)
+
     def encode(self, text, text_pair=None, **kwargs):
         if text is not None:
             text = self.preprocess_text(text)
@@ -58,7 +61,7 @@ class WordTokenizer(AbstractWordTokenizer):
             text_pair = self.preprocess_text(text_pair)
 
         return self.tokenizer.encode(text, text_pair, **kwargs)
-    
+
     def encode_plus(self, text, text_pair=None, **kwargs):
         if text is not None:
             text = self.preprocess_text(text)
@@ -85,9 +88,6 @@ class WordTokenizer(AbstractWordTokenizer):
         tokens = nltk.word_tokenize(text)
         tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
-
-    def __getattr__(self, attr):
-        return self.tokenizer.__getattribute__(attr)
 
     def preprocess_text(self, text):
         if isinstance(text, str):
