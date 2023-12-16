@@ -55,7 +55,7 @@ mwt.save_pretrained('in_domain_data')
 new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
 new_mwt = MultiWordTokenizer(new_pretrained_tokenizer)
-new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
+new_mwt.load_ngrams('in_domain_data/ngram_vocab.json')
 ```
 
 ## Citation
