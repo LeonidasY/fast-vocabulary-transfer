@@ -1,3 +1,4 @@
+import copy
 import nltk
 import pandas as pd
 
@@ -12,7 +13,7 @@ class MultiWordTokenizer(WordTokenizer):
 
     def __init__(self, tokenizer):
         super(MultiWordTokenizer, self).__init__()
-        self.tokenizer = tokenizer
+        self.tokenizer = copy.deepcopy(tokenizer)
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
         data = pd.Series(data)
