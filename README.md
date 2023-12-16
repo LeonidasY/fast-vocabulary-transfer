@@ -25,7 +25,7 @@ pretrained_tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
 pretrained_model = AutoModelForTokenClassification.from_pretrained('bert-base-uncased')
 
 # load your dataset here...
-in_domain_data = ['A list of strings', '...']  # dummy data
+in_domain_data = ['A list of strings', '...'] # dummy data
 
 # training an in-domain tokenizer
 in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_size=10000)
@@ -39,7 +39,7 @@ mwt.save_pretrained('in_domain_data')
 
 fvt = FastVocabularyTransfer()
 in_model = fvt.transfer(
-    in_tokenizer=pretrained_mwt,
+    in_tokenizer=in_tokenizer,
     gen_tokenizer=pretrained_tokenizer,
     gen_model=pretrained_model
 )
