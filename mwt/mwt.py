@@ -1,7 +1,5 @@
-import pandas as pd
-
 import nltk
-nltk.download('punkt')
+import pandas as pd
 
 from collections import OrderedDict
 
@@ -33,7 +31,6 @@ class MultiWordTokenizer(WordTokenizer):
 
         global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
 
-        self.ngram_vocab = {}
         for key in list(global_freq.keys())[:top_k]:
 
             ngram_size = len(key)

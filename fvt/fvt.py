@@ -29,6 +29,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
 
         gen_vocab = gen_tokenizer.get_vocab()
         in_vocab = in_tokenizer.get_vocab()
+        ngram_vocab = in_tokenizer.ngram_vocab if hasattr(in_tokenizer, 'ngram_vocab') else {}
 
         tokens_map = {}
         for new_token, new_index in list(in_vocab.items()):
@@ -39,7 +40,10 @@ class FastVocabularyTransfer(VocabularyTransfer):
             else:
                 # if not, tokenize the new token using the old vocabulary
                 # Remove '##' from the beginning of the subtoken
-                token_partition = gen_tokenizer.tokenize(re.sub("^(##|Ġ|▁)", '', new_token))
+                if new_token in ngram_vocab:
+                    token_partition = gen_tokenizer.tokenize(new_token.split('_'), is_split_into_words=True)
+                else:
+                    token_partition = gen_tokenizer.tokenize(re.sub("^(##|Ġ|▁)", '', new_token))
                 tokens_map[in_vocab[new_token]] = [gen_vocab[old_token] for old_token in token_partition]
 
         return tokens_map

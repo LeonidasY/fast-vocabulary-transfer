@@ -19,20 +19,19 @@ git clone https://github.com/LeonidasY/fast-vocabulary-transfer.git
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from fvt.fvt import FastVocabularyTransfer
 
-if __name__ == "__main__":
-    pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    pretrained_model = AutoModelForTokenClassification.from_pretrained("bert-base-uncased")
+pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+pretrained_model = AutoModelForTokenClassification.from_pretrained("bert-base-uncased")
 
-    # load your dataset here...
-    in_domain_data = ['A list of strings', '...']  # dummy data
+# load your dataset here...
+in_domain_data = ['A list of strings', '...']  # dummy data
 
-    fvt = FastVocabularyTransfer()
-    in_tokenizer, in_model = fvt.transfer(
-        in_domain_data=in_domain_data,
-        gen_tokenizer=pretrained_tokenizer,
-        gen_model=pretrained_model,
-        vocab_size=10000
-    )
+fvt = FastVocabularyTransfer()
+in_tokenizer, in_model = fvt.transfer(
+    in_domain_data=in_domain_data,
+    gen_tokenizer=pretrained_tokenizer,
+    gen_model=pretrained_model,
+    vocab_size=10000
+)
 
 
 # Fine-tune your in-domain model on your downstream task...
@@ -42,23 +41,22 @@ if __name__ == "__main__":
 from transformers import AutoTokenizer
 from mwt.mwt import MultiWordTokenizer
 
-if __name__ == "__main__":
-    pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
-    # load your dataset here...
-    in_domain_data = ['A list of strings', '...']  # dummy data
+# load your dataset here...
+in_domain_data = ['A list of strings', '...']  # dummy data
 
-    mwt = MultiWordTokenizer(pretrained_tokenizer)
-    mwt.learn_ngrams(data=in_domain_data, n=2, top_k=1000)
+mwt = MultiWordTokenizer(pretrained_tokenizer)
+mwt.learn_ngrams(data=in_domain_data, n=2, top_k=1000)
 
-    # save the ngram vocabulary
-    mwt.save_pretrained('in_domain_data')
+# save the ngram vocabulary
+mwt.save_pretrained('in_domain_data')
 
-    # load the ngram vocabulary
-    new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
+# load the ngram vocabulary
+new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-    new_mwt = MultiWordTokenizer(new_pretrained_tokenizer)
-    new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
+new_mwt = MultiWordTokenizer(new_pretrained_tokenizer)
+new_mwt.load_ngrams(data_path='in_domain_data/ngram_vocab.json')
 ```
 
 ## Citation

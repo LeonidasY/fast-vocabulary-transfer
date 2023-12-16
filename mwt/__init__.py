@@ -1,9 +1,7 @@
 import abc
 import json
-import os
-
 import nltk
-nltk.download('punkt')
+import os
 
 
 class AbstractWordTokenizer(metaclass=abc.ABCMeta):
