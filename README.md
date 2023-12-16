@@ -1,4 +1,4 @@
-# Fast Vocabulary Transfer
+# Fast Vocabulary Transfer & Multi-word Tokenization
 
 The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) and [**Multi-word Tokenization for Sequence Compression**](https://aclanthology.org/2023.emnlp-industry.58) presented at **EMNLP 2022 & 2023** - Industry Track, into a ready to use library for your own application.
 
