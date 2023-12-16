@@ -41,55 +41,49 @@ class WordTokenizer(AbstractWordTokenizer):
     def __init__(self):
         super(WordTokenizer, self).__init__()
 
-    def __call__(self, text=None, text_pair=None, text_target=None, text_pair_target=None, **kwargs):
+    def __call__(self, text=None, text_pair=None, **kwargs):
         if text is not None:
-            text = self._preprocess_text(text)
+            text = self.preprocess_text(text)
 
         if text_pair is not None:
-            text_pair = self._preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair)
 
-        if text_target is not None:
-            text_target = self._preprocess_text(text_target)
-
-        if text_pair_target is not None:
-            text_pair_target = self._preprocess_text(text_pair_target)
-
-        return self.tokenizer(text, text_pair, text_target, text_pair_target, **kwargs)
+        return self.tokenizer(text, text_pair, **kwargs)
     
     def encode(self, text, text_pair=None, **kwargs):
         if text is not None:
-            text = self._preprocess_text(text)
+            text = self.preprocess_text(text)
 
         if text_pair is not None:
-            text_pair = self._preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair)
 
         return self.tokenizer.encode(text, text_pair, **kwargs)
     
     def encode_plus(self, text, text_pair=None, **kwargs):
         if text is not None:
-            text = self._preprocess_text(text)
+            text = self.preprocess_text(text)
 
         if text_pair is not None:
-            text_pair = self._preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair)
 
         return self.tokenizer.encode_plus(text, text_pair, **kwargs)
 
     def tokenize(self, text, **kwargs):
         if text is not None:
-            text = self._preprocess_text(text)
+            text = self.preprocess_text(text)
 
         return self.tokenizer.tokenize(text, **kwargs)
 
     def decode(self, **kwargs):
         text = self.tokenizer.decode(**kwargs)
         tokens = nltk.word_tokenize(text)
-        tokens = self._unmerge_ngrams(tokens)
+        tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
 
     def convert_tokens_to_string(self, tokens):
         text = self.tokenizer.convert_tokens_to_string(tokens)
         tokens = nltk.word_tokenize(text)
-        tokens = self._unmerge_ngrams(tokens)
+        tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
 
     def __getattr__(self, attr):
@@ -113,14 +107,14 @@ class WordTokenizer(AbstractWordTokenizer):
     def preprocess_text(self, text):
         if isinstance(text, str):
             words = nltk.word_tokenize(text)
-            words = self._merge_ngrams(words)
+            words = self.merge_ngrams(words)
             text = ' '.join(words)
 
         else:
             new_seq = []
             for seq in text:
                 words = nltk.word_tokenize(seq)
-                words = self._merge_ngrams(words)
+                words = self.merge_ngrams(words)
                 new_seq.append(' '.join(words))
             text = new_seq
 
