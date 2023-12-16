@@ -28,7 +28,7 @@ pretrained_model = AutoModelForTokenClassification.from_pretrained('bert-base-un
 in_domain_data = ['A list of strings', '...']  # dummy data
 
 # training an in-domain tokenizer
-in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_size=1000)
+in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_size=10000)
 
 # initializing a multi-word tokenizer
 mwt = MultiWordTokenizer(in_tokenizer)
