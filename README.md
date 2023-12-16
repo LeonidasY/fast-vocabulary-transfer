@@ -35,15 +35,15 @@ in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_s
 mwt = MultiWordTokenizer(in_tokenizer)
 mwt.learn_ngrams(in_domain_data, n=2, top_k=1000)
 
-# saving the ngram vocabulary
-mwt.save_pretrained('in_domain_data')
-
 in_model = fvt.transfer(
     in_tokenizer=in_tokenizer,
     gen_tokenizer=pretrained_tokenizer,
     gen_model=pretrained_model
 )
 # fine-tune your in-domain model on your downstream task...
+
+# saving the ngram vocabulary
+mwt.save_pretrained('in_domain_data')
 
 # reusing the ngram vocabulary
 pretrained_tokenizer = AutoTokenizer.from_pretrained('gpt2')
