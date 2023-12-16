@@ -16,13 +16,13 @@ git clone https://github.com/LeonidasY/fast-vocabulary-transfer.git
 
 ## Usage
 ```python
-from transformers import AutoTokenizer, AutoModelForTokenClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from fvt.fvt import FastVocabularyTransfer
 from mwt.mwt import MultiWordTokenizer
 
 
 pretrained_tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-pretrained_model = AutoModelForTokenClassification.from_pretrained('bert-base-uncased')
+pretrained_model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
 
 # load your dataset here...
 in_domain_data = ['A list of strings', '...'] # dummy data
