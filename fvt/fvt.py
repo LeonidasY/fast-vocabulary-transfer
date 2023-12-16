@@ -36,7 +36,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
             # If the same token exists in the old vocabulary, take its embedding
             if new_token in gen_vocab:
                 old_index = gen_vocab[new_token]
-                tokens_map[in_vocab[new_token]] = [old_index]
+                tokens_map[new_index] = [old_index]
             else:
                 # if not, tokenize the new token using the old vocabulary
                 # Remove '##' from the beginning of the subtoken
@@ -44,7 +44,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
                     token_partition = gen_tokenizer.tokenize(new_token.split('_'), is_split_into_words=True)
                 else:
                     token_partition = gen_tokenizer.tokenize(re.sub("^(##|Ġ|▁)", '', new_token))
-                tokens_map[in_vocab[new_token]] = [gen_vocab[old_token] for old_token in token_partition]
+                tokens_map[new_index] = [gen_vocab[old_token] for old_token in token_partition]
 
         return tokens_map
 
@@ -55,7 +55,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
         assigning embeddings from the gen_model.
 
         :param tokens_map: A mapping between new and old tokens. See tokens_mapping(...)
-        :param gen_model: An huggingface model, e.g. bert
+        :param gen_model: A huggingface model, e.g. bert
         :param kwargs: no kwargs
         :return: (2-d torch.Tensor) An embedding matrix with same size of tokens_map.
         """

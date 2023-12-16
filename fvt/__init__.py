@@ -7,7 +7,6 @@ class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
 
         self.tokens_map = {}
         self.in_matrix = None
-        self.in_tokenizer = None
         self.in_model = None
 
     @staticmethod
@@ -79,23 +78,20 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
 
         return self.in_model
 
-    def transfer(self, in_domain_data, gen_tokenizer, gen_model, vocab_size, **kwargs):
+    def transfer(self, in_tokenizer, gen_tokenizer, gen_model, **kwargs):
         """
-        Method that returns a new tokenizer trained on in_domain_data and new LM model
-        with transferred embeddings.
+        Method that returns a new LM model with transferred embeddings.
 
-        :param in_domain_data: a list of textual sequences to train the tokenizer with
-        :param gen_tokenizer: a general-purpose tokenizer.
-        :param gen_model: An huggingface model, e.g. bert
-        :param vocab_size: int. Vocabulary size for the new trained tokenizer
-        :param kwargs:
+        :param in_tokenizer: Any huggingface tokenizer
+        :param gen_tokenizer: Any huggingface tokenizer
+        :param gen_model: Any huggingface model
+        :param kwargs: no kwargs
 
-        :return: A new in_domain tokenizer, A new in_domain LM
+        :return: A new in_domain model
         """
 
-        self.in_tokenizer = self.train_tokenizer(in_domain_data, gen_tokenizer, vocab_size, **kwargs)
-        self.tokens_map = self.tokens_mapping(self.in_tokenizer, gen_tokenizer)
+        self.tokens_map = self.tokens_mapping(in_tokenizer, gen_tokenizer)
         self.in_matrix = self.embeddings_assignment(self.tokens_map, gen_model)
         self.in_model = self.update_model_embeddings(gen_model, self.in_matrix)
 
-        return self.in_tokenizer, self.in_model
+        return self.in_model

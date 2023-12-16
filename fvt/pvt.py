@@ -18,9 +18,9 @@ class PartialVocabularyTransfer(VocabularyTransfer):
             if new_token in gen_vocab:
                 # if the same token exists in the old vocabulary, take its embedding
                 old_index = gen_vocab[new_token]
-                tokens_map[in_vocab[new_token]] = [old_index]
+                tokens_map[new_index] = [old_index]
             else:
-                tokens_map[in_vocab[new_token]] = []  # no index to map with
+                tokens_map[new_index] = []  # no index to map with
 
         return tokens_map
 
