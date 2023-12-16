@@ -33,7 +33,6 @@ in_tokenizer, in_model = fvt.transfer(
     vocab_size=10000
 )
 
-
 # Fine-tune your in-domain model on your downstream task...
 ```
 
