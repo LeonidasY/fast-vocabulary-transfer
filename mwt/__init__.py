@@ -15,7 +15,7 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
         self.top_k=None
 
     @abc.abstractmethod
-    def mine_ngrams(self, data, n, top_k, **kwargs):
+    def learn_ngrams(self, data, n, top_k, **kwargs):
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -98,7 +98,7 @@ class WordTokenizer(AbstractWordTokenizer):
         return self.tokenizer.__getattribute__(attr)
 
     @abc.abstractmethod
-    def mine_ngrams(self, data, n, top_k, **kwargs):
+    def learn_ngrams(self, data, n, top_k, **kwargs):
         raise NotImplementedError
 
     def load_ngrams(self, data_path, **kwargs):

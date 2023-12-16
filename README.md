@@ -49,7 +49,7 @@ if __name__ == "__main__":
     in_domain_data = ['A list of strings', '...']  # dummy data
 
     mwt = MultiWordTokenizer(pretrained_tokenizer)
-    mwt.mine_ngrams(data=in_domain_data, n=2, top_k=1000)
+    mwt.learn_ngrams(data=in_domain_data, n=2, top_k=1000)
 
     # save the ngram vocabulary
     mwt.save_pretrained('in_domain_data')
