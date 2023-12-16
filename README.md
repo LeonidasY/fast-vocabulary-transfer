@@ -28,6 +28,7 @@ pretrained_model = AutoModelForTokenClassification.from_pretrained('bert-base-un
 in_domain_data = ['A list of strings', '...'] # dummy data
 
 # training an in-domain tokenizer
+fvt = FastVocabularyTransfer()
 in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_size=10000)
 
 # initializing a multi-word tokenizer
@@ -37,7 +38,6 @@ mwt.learn_ngrams(in_domain_data, n=2, top_k=1000)
 # saving the ngram vocabulary
 mwt.save_pretrained('in_domain_data')
 
-fvt = FastVocabularyTransfer()
 in_model = fvt.transfer(
     in_tokenizer=in_tokenizer,
     gen_tokenizer=pretrained_tokenizer,
