@@ -41,6 +41,9 @@ class WordTokenizer(AbstractWordTokenizer):
     def __init__(self):
         super(WordTokenizer, self).__init__()
 
+    def __getattr__(self, attr):
+        return self.tokenizer.__getattribute__(attr)
+    
     def __call__(self, text=None, text_pair=None, **kwargs):
         if text is not None:
             text = self.preprocess_text(text)
@@ -49,9 +52,6 @@ class WordTokenizer(AbstractWordTokenizer):
             text_pair = self.preprocess_text(text_pair)
 
         return self.tokenizer(text, text_pair, **kwargs)
-
-    def __getattr__(self, attr):
-        return self.tokenizer.__getattribute__(attr)
 
     def encode(self, text, text_pair=None, **kwargs):
         if text is not None:
