@@ -145,8 +145,8 @@ class WordTokenizer(AbstractWordTokenizer):
 
         return self.tokenizer.save_pretrained(save_directory, **kwargs)
 
-    def load_ngrams(self, data_path, **kwargs):
-        self.ngram_vocab = json.load(open(data_path))
+    def load_ngrams(self, data, **kwargs):
+        self.ngram_vocab = json.load(open(data))
         [self.n] = set(self.ngram_vocab.values())
         self.top_k = len(self.ngram_vocab)
 
