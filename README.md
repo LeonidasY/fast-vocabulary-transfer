@@ -18,44 +18,40 @@ git clone https://github.com/LeonidasY/fast-vocabulary-transfer.git
 ```python
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from fvt.fvt import FastVocabularyTransfer
+from mwt.mwt import MultiWordTokenizer
 
-pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-pretrained_model = AutoModelForTokenClassification.from_pretrained("bert-base-uncased")
+pretrained_tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+pretrained_model = AutoModelForTokenClassification.from_pretrained('bert-base-uncased')
 
 # load your dataset here...
 in_domain_data = ['A list of strings', '...']  # dummy data
 
-fvt = FastVocabularyTransfer()
+# training an in-domain tokenizer
 in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_size=1000)
+
+# initializing a multi-word tokenizer
+mwt = MultiWordTokenizer(in_tokenizer)
+mwt.learn_ngrams(data=in_domain_data, n=2, top_k=1000)
+
+# saving the ngram vocabulary
+mwt.save_pretrained('in_domain_data')
+
+fvt = FastVocabularyTransfer()
 in_model = fvt.transfer(
-    in_tokenizer=in_tokenizer,
+    in_tokenizer=pretrained_mwt,
     gen_tokenizer=pretrained_tokenizer,
     gen_model=pretrained_model
 )
 
 # Fine-tune your in-domain model on your downstream task...
-```
 
-```python
-from transformers import AutoTokenizer
-from mwt.mwt import MultiWordTokenizer
 
-pretrained_tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-
-# load your dataset here...
-in_domain_data = ['A list of strings', '...']  # dummy data
+# reusing the ngram vocabulary
+pretrained_tokenizer = AutoTokenizer.from_pretrained('gpt2')
 
 mwt = MultiWordTokenizer(pretrained_tokenizer)
-mwt.learn_ngrams(data=in_domain_data, n=2, top_k=1000)
+mwt.load_ngrams('in_domain_data/ngram_vocab.json')
 
-# save the ngram vocabulary
-mwt.save_pretrained('in_domain_data')
-
-# load the ngram vocabulary
-new_pretrained_tokenizer = AutoTokenizer.from_pretrained("gpt2")
-
-new_mwt = MultiWordTokenizer(new_pretrained_tokenizer)
-new_mwt.load_ngrams('in_domain_data/ngram_vocab.json')
 ```
 
 ## Citation

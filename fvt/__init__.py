@@ -11,7 +11,7 @@ class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def train_tokenizer(in_domain_data, gen_tokenizer, vocab_size, **kwargs):
+    def train_tokenizer(data, gen_tokenizer, vocab_size, **kwargs):
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -36,18 +36,18 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
         super(VocabularyTransfer, self).__init__()
 
     @staticmethod
-    def train_tokenizer(in_domain_data, gen_tokenizer, vocab_size, **kwargs):
+    def train_tokenizer(data, gen_tokenizer, vocab_size, **kwargs):
         """
         Train an HF tokenizer with the specified vocab size.
 
-        :param in_domain_data: a list of textual sequences to train the tokenizer with
+        :param data: a list of textual sequences to train the tokenizer with
         :param gen_tokenizer: a general-purpose tokenizer.
         :param vocab_size: int. Vocabulary size for the new trained tokenizer
         :param kwargs: no kwargs
 
         :return: A new trained tokenizer in the in-domain data
         """
-        in_tokenizer = gen_tokenizer.train_new_from_iterator(in_domain_data, vocab_size)
+        in_tokenizer = gen_tokenizer.train_new_from_iterator(data, vocab_size)
 
         return in_tokenizer
 
