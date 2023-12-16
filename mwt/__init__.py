@@ -94,9 +94,9 @@ class WordTokenizer(AbstractWordTokenizer):
         raise NotImplementedError
 
     def load_ngrams(self, data_path, **kwargs):
-        self.ngram_vocab = {int(k): v for k, v in json.load(open(data_path)).items()}
-        self.n = list(self.ngram_vocab.keys())[0]
-        self.top_k = len(self.ngram_vocab[self.n])
+        self.ngram_vocab = json.load(open(data_path))
+        [self.n] = set(self.ngram_vocab.values())
+        self.top_k = len(self.ngram_vocab)
 
         for ngrams in self.ngram_vocab.values():
             for ngram in ngrams.keys():

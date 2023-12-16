@@ -31,11 +31,6 @@ class MultiWordTokenizer(WordTokenizer):
         global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
 
         for key in list(global_freq.keys())[:top_k]:
-
-            ngram_size = len(key)
-            if ngram_size not in self.ngram_vocab:
-                self.ngram_vocab[ngram_size] = {}
-
             ngram = '_'.join(key)
-            self.ngram_vocab[ngram_size][ngram] = None
+            self.ngram_vocab[ngram] = len(key)
             self.tokenizer.add_tokens(ngram)
