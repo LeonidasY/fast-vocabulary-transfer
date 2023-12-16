@@ -13,14 +13,6 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
         self.top_k=None
 
     @abc.abstractmethod
-    def learn_ngrams(self, data, n, top_k, **kwargs):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def load_ngrams(self, data_path, **kwargs):
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def preprocess_text(self, text, **kwargs):
         raise NotImplementedError
 
@@ -33,7 +25,15 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def learn_ngrams(self, data, n, top_k, **kwargs):
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def save_pretrained(self, save_directory, **kwargs):
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def load_ngrams(self, data_path, **kwargs):
         raise NotImplementedError
 
 
@@ -89,18 +89,6 @@ class WordTokenizer(AbstractWordTokenizer):
     def __getattr__(self, attr):
         return self.tokenizer.__getattribute__(attr)
 
-    @abc.abstractmethod
-    def learn_ngrams(self, data, n, top_k, **kwargs):
-        raise NotImplementedError
-
-    def load_ngrams(self, data_path, **kwargs):
-        self.ngram_vocab = json.load(open(data_path))
-        [self.n] = set(self.ngram_vocab.values())
-        self.top_k = len(self.ngram_vocab)
-
-        for ngram in self.ngram_vocab.keys():
-            self.tokenizer.add_tokens(ngram)
-
     def preprocess_text(self, text):
         if isinstance(text, str):
             words = nltk.word_tokenize(text)
@@ -144,6 +132,10 @@ class WordTokenizer(AbstractWordTokenizer):
         
         return words
 
+    @abc.abstractmethod
+    def learn_ngrams(self, data, n, top_k, **kwargs):
+        raise NotImplementedError
+
     def save_pretrained(self, save_directory, **kwargs):
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
@@ -152,3 +144,11 @@ class WordTokenizer(AbstractWordTokenizer):
             json.dump(self.ngram_vocab, f)
 
         return self.tokenizer.save_pretrained(save_directory, **kwargs)
+
+    def load_ngrams(self, data_path, **kwargs):
+        self.ngram_vocab = json.load(open(data_path))
+        [self.n] = set(self.ngram_vocab.values())
+        self.top_k = len(self.ngram_vocab)
+
+        for ngram in self.ngram_vocab.keys():
+            self.tokenizer.add_tokens(ngram)
