@@ -1,4 +1,4 @@
-## Fast Vocabulary Transfer & Multi-word Tokenization
+# Fast Vocabulary Transfer & Multi-word Tokenization
 
 The repository wraps the code for the paper titled [**Fast Vocabulary Transfer for Language Model Compression**](https://aclanthology.org/2022.emnlp-industry.41) and [**Multi-word Tokenization for Sequence Compression**](https://aclanthology.org/2023.emnlp-industry.58) presented at **EMNLP 2022 & 2023** - Industry Track, into a ready to use library for your own application.
 
@@ -8,13 +8,12 @@ The [emnlp2022](https://github.com/LeonidasY/fast-vocabulary-transfer/tree/emnlp
 
 **Affiliations:** University of Sussex, Expert.ai, University of Bologna
 
-### Installation
-
+## Installation
 ```
 git clone https://github.com/LeonidasY/fast-vocabulary-transfer.git
 ```
 
-### Usage
+## Usage
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from fvt.fvt import FastVocabularyTransfer
@@ -53,7 +52,7 @@ new_mwt.load_ngrams('in_domain_data/ngram_vocab.json')
 
 ```
 
-### Citation
+## Citation
 ```
 @inproceedings{gee-etal-2022-fast,
     title = "Fast Vocabulary Transfer for Language Model Compression",
