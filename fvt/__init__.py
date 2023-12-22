@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
     def __init__(self):
-        raise NotImplementedError
+        pass
 
     @staticmethod
     @abc.abstractmethod
