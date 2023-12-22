@@ -4,10 +4,7 @@ import torch.nn as nn
 
 class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
     def __init__(self):
-
-        self.tokens_map = {}
-        self.in_matrix = None
-        self.in_model = None
+        raise NotImplementedError
 
     @staticmethod
     @abc.abstractmethod
@@ -67,16 +64,15 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
         """
 
         # Change the model's embedding matrix
-        self.in_model = gen_model
-        self.in_model.get_input_embeddings().weight = nn.Parameter(in_matrix)
-        self.in_model.config.vocab_size = in_matrix.shape[0]
+        gen_model.get_input_embeddings().weight = nn.Parameter(in_matrix)
+        gen_model.config.vocab_size = in_matrix.shape[0]
 
-        tie_weights = kwargs.get("tie_weights", True)
+        tie_weights = kwargs.get('tie_weights', True)
         if tie_weights:
             # Tie the model's weights
-            self.in_model.tie_weights()
+            gen_model.tie_weights()
 
-        return self.in_model
+        return gen_model
 
     def transfer(self, in_tokenizer, gen_tokenizer, gen_model, **kwargs):
         """
@@ -90,8 +86,8 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
         :return: A new in_domain model
         """
 
-        self.tokens_map = self.tokens_mapping(in_tokenizer, gen_tokenizer)
-        self.in_matrix = self.embeddings_assignment(self.tokens_map, gen_model)
-        self.in_model = self.update_model_embeddings(gen_model, self.in_matrix)
+        tokens_map = self.tokens_mapping(in_tokenizer, gen_tokenizer)
+        in_matrix = self.embeddings_assignment(tokens_map, gen_model)
+        in_model = self.update_model_embeddings(gen_model, in_matrix)
 
-        return self.in_model
+        return in_model
