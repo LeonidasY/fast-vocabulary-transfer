@@ -6,11 +6,10 @@ import os
 
 class AbstractWordTokenizer(metaclass=abc.ABCMeta):
     def __init__(self):
-
         self.ngram_vocab = {}
-        self.tokenizer=None
-        self.n=None
-        self.top_k=None
+        self.tokenizer = None
+        self.n = None
+        self.top_k = None
 
     @abc.abstractmethod
     def preprocess_text(self, text, **kwargs):
