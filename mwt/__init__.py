@@ -53,8 +53,7 @@ class WordTokenizer(AbstractWordTokenizer):
         return self.tokenizer(text, text_pair, **kwargs)
 
     def encode(self, text, text_pair=None, **kwargs):
-        if text is not None:
-            text = self.preprocess_text(text)
+        text = self.preprocess_text(text)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair)
@@ -62,8 +61,7 @@ class WordTokenizer(AbstractWordTokenizer):
         return self.tokenizer.encode(text, text_pair, **kwargs)
 
     def encode_plus(self, text, text_pair=None, **kwargs):
-        if text is not None:
-            text = self.preprocess_text(text)
+        text = self.preprocess_text(text)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair)
@@ -71,8 +69,7 @@ class WordTokenizer(AbstractWordTokenizer):
         return self.tokenizer.encode_plus(text, text_pair, **kwargs)
 
     def tokenize(self, text, **kwargs):
-        if text is not None:
-            text = self.preprocess_text(text)
+        text = self.preprocess_text(text)
 
         return self.tokenizer.tokenize(text, **kwargs)
 
