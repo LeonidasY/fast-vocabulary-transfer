@@ -16,12 +16,12 @@ class MultiWordTokenizer(WordTokenizer):
         self.tokenizer = copy.deepcopy(tokenizer)
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
+        data = pd.Series(data)
         self.n = n
         self.top_k = top_k
         
-        data = pd.Series(data)
         tokens = data.apply(nltk.word_tokenize)
-        ngrams = tokens.apply(nltk.ngrams, n=n)
+        ngrams = tokens.apply(nltk.ngrams, n=self.n)
 
         global_freq = {}
         for ngram in ngrams:
@@ -34,7 +34,7 @@ class MultiWordTokenizer(WordTokenizer):
 
         global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
 
-        for key in list(global_freq.keys())[:top_k]:
+        for key in list(global_freq.keys())[:self.top_k]:
             ngram = '_'.join(key)
             self.ngram_vocab[ngram] = len(key)
             self.tokenizer.add_tokens(ngram)
