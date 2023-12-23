@@ -16,6 +16,9 @@ class MultiWordTokenizer(WordTokenizer):
         self.tokenizer = copy.deepcopy(tokenizer)
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
+        self.n = n
+        self.top_k = top_k
+        
         data = pd.Series(data)
         tokens = data.apply(nltk.word_tokenize)
         ngrams = tokens.apply(nltk.ngrams, n=n)
