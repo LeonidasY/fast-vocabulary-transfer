@@ -116,7 +116,7 @@ class WordTokenizer(AbstractWordTokenizer):
         for i, pair in enumerate(pairs):
             ngram = '_'.join(pair)
 
-            if ngram in self.ngram_vocab[self.n] and i >= last_index:
+            if ngram in self.ngram_vocab and i >= last_index:
                 new_words += words[last_index:i]
                 new_words.append(ngram)
                 last_index = i + self.n
@@ -126,7 +126,7 @@ class WordTokenizer(AbstractWordTokenizer):
 
     def unmerge_ngrams(self, words):
         for i, word in enumerate(words):
-            if word in self.ngram_vocab[self.n]:
+            if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
         
         return words
