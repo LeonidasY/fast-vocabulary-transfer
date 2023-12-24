@@ -39,11 +39,11 @@ class FastVocabularyTransfer(VocabularyTransfer):
                 tokens_map[new_index] = [old_index]
             else:
                 # if not, tokenize the new token using the old vocabulary
-                # Remove '##' from the beginning of the subtoken
                 if new_token in ngram_vocab:
                     token_partition = gen_tokenizer.tokenize(new_token.split('_'), is_split_into_words=True)
                 else:
-                    token_partition = gen_tokenizer.tokenize(re.sub("^(##|Ġ|▁)", '', new_token))
+                    # Remove the prefix of any subtoken
+                    token_partition = gen_tokenizer.tokenize(re.sub('^(##|Ġ|▁)', '', new_token))
                 tokens_map[new_index] = [gen_vocab[old_token] for old_token in token_partition]
 
         return tokens_map
