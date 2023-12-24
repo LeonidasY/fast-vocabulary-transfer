@@ -28,7 +28,7 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
     
     @abc.abstractmethod
-    def load_ngrams(self, data_path, **kwargs):
+    def load_ngrams(self, data, **kwargs):
         raise NotImplementedError
 
 
