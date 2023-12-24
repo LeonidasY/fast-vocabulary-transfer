@@ -75,8 +75,8 @@ class WordTokenizer(AbstractWordTokenizer):
         tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
 
-    def convert_tokens_to_string(self, tokens):
-        text = self.tokenizer.convert_tokens_to_string(tokens)
+    def convert_tokens_to_string(self, *args, **kwargs):
+        text = self.tokenizer.convert_tokens_to_string(*args, **kwargs)
         tokens = nltk.word_tokenize(text)
         tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
