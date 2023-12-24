@@ -26,10 +26,6 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def learn_ngrams(self, data, n, top_k, **kwargs):
         raise NotImplementedError
-
-    @abc.abstractmethod
-    def save_pretrained(self, save_directory, **kwargs):
-        raise NotImplementedError
     
     @abc.abstractmethod
     def load_ngrams(self, data_path, **kwargs):
@@ -43,38 +39,38 @@ class WordTokenizer(AbstractWordTokenizer):
     def __getattr__(self, attr):
         return self.tokenizer.__getattribute__(attr)
     
-    def __call__(self, text=None, text_pair=None, **kwargs):
+    def __call__(self, text=None, text_pair=None, *args, **kwargs):
         if text is not None:
             text = self.preprocess_text(text)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair)
 
-        return self.tokenizer(text, text_pair, **kwargs)
+        return self.tokenizer(text, text_pair, *args, **kwargs)
 
-    def encode(self, text, text_pair=None, **kwargs):
+    def encode(self, text, text_pair=None, *args, **kwargs):
         text = self.preprocess_text(text)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair)
 
-        return self.tokenizer.encode(text, text_pair, **kwargs)
+        return self.tokenizer.encode(text, text_pair, *args, **kwargs)
 
-    def encode_plus(self, text, text_pair=None, **kwargs):
+    def encode_plus(self, text, text_pair=None, *args, **kwargs):
         text = self.preprocess_text(text)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair)
 
-        return self.tokenizer.encode_plus(text, text_pair, **kwargs)
+        return self.tokenizer.encode_plus(text, text_pair, *args, **kwargs)
 
-    def tokenize(self, text, **kwargs):
+    def tokenize(self, text, *args, **kwargs):
         text = self.preprocess_text(text)
 
-        return self.tokenizer.tokenize(text, **kwargs)
+        return self.tokenizer.tokenize(text, *args, **kwargs)
 
-    def decode(self, **kwargs):
-        text = self.tokenizer.decode(**kwargs)
+    def decode(self, *args, **kwargs):
+        text = self.tokenizer.decode(*args, **kwargs)
         tokens = nltk.word_tokenize(text)
         tokens = self.unmerge_ngrams(tokens)
         return ' '.join(tokens)
@@ -132,14 +128,14 @@ class WordTokenizer(AbstractWordTokenizer):
     def learn_ngrams(self, data, n, top_k, **kwargs):
         raise NotImplementedError
 
-    def save_pretrained(self, save_directory, **kwargs):
+    def save_pretrained(self, save_directory, *args, **kwargs):
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
 
         with open(os.path.join(save_directory, 'ngram_vocab.json'), 'w') as f:
             json.dump(self.ngram_vocab, f)
 
-        return self.tokenizer.save_pretrained(save_directory, **kwargs)
+        return self.tokenizer.save_pretrained(save_directory, *args, **kwargs)
 
     def load_ngrams(self, data, **kwargs):
         self.ngram_vocab = json.load(open(data))
