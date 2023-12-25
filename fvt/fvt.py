@@ -32,7 +32,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
         ngram_vocab = in_tokenizer.ngram_vocab if hasattr(in_tokenizer, 'ngram_vocab') else {}
 
         tokens_map = {}
-        for new_token, new_index in list(in_vocab.items()):
+        for new_token, new_index in in_vocab.items():
             # If the same token exists in the old vocabulary, take its embedding
             if new_token in gen_vocab:
                 old_index = gen_vocab[new_token]
