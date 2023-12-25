@@ -33,7 +33,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
 
         tokens_map = {}
         for new_token, new_index in in_vocab.items():
-            # If the same token exists in the old vocabulary, take its embedding
+            # if the same token exists in the old vocabulary, take its embedding
             if new_token in gen_vocab:
                 old_index = gen_vocab[new_token]
                 tokens_map[new_index] = [old_index]
@@ -42,7 +42,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
                 if new_token in ngram_vocab:
                     token_partition = gen_tokenizer.tokenize(new_token.split('_'), is_split_into_words=True)
                 else:
-                    # Remove the prefix of any subtoken
+                    # remove the prefix of any subtoken
                     token_partition = gen_tokenizer.tokenize(re.sub('^(##|Ġ|▁)', '', new_token))
                 tokens_map[new_index] = [gen_vocab[old_token] for old_token in token_partition]
 
