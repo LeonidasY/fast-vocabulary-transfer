@@ -14,7 +14,7 @@ class PartialVocabularyTransfer(VocabularyTransfer):
         in_vocab = in_tokenizer.get_vocab()
 
         tokens_map = {}
-        for new_token, new_index in list(in_vocab.items()):
+        for new_token, new_index in in_vocab.items():
             if new_token in gen_vocab:
                 # if the same token exists in the old vocabulary, take its embedding
                 old_index = gen_vocab[new_token]
