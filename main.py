@@ -79,7 +79,7 @@ def main():
   elif VT is None and MW in [1000, 2500, 5000]:
     tokenizer = MultiBertTokenizer.from_pretrained(
       MODEL, 
-      train_data=X_train.apply(' '.join) if DATA == 'conll' else X_train, 
+      train_data=X_train, 
       n=2, 
       top_k=MW, 
       model_max_length=LEN
@@ -88,7 +88,7 @@ def main():
   elif VT in [100, 75, 50, 25] and MW in [1000, 2500, 5000]:
     tokenizer = MultiBertTokenizer.from_pretrained(
       os.path.join('tokenizers', DATA, str(VT)), 
-      train_data=X_train.apply(' '.join) if DATA == 'conll' else X_train, 
+      train_data=X_train, 
       n=2, 
       top_k=MW, 
       model_max_length=LEN
