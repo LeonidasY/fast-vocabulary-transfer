@@ -142,7 +142,7 @@ def main():
     masked_lm = AutoModelForMaskedLM.from_pretrained(MODEL)
     vocab_transfer(AutoTokenizer.from_pretrained(MODEL), tokenizer, masked_lm, 'FVT')
     pre_train_model(
-      mlm_args, masked_lm, MLMDataset(tokenizer, X_train.apply(' '.join), seed=i), MLMDataset(tokenizer, X_val.apply(' '.join), seed=i)
+      mlm_args, masked_lm, MLMDataset(tokenizer, X_train, seed=i), MLMDataset(tokenizer, X_val, seed=i)
     )
 
     # Train the model
