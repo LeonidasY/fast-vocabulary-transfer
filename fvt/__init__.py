@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
     def __init__(self):
-        pass
+        self.tokens_map = None
 
     @staticmethod
     @abc.abstractmethod
@@ -86,8 +86,8 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
         :return: A new in_domain model
         """
 
-        tokens_map = self.tokens_mapping(in_tokenizer, gen_tokenizer)
-        in_matrix = self.embeddings_assignment(tokens_map, gen_model)
+        self.tokens_map = self.tokens_mapping(in_tokenizer, gen_tokenizer)
+        in_matrix = self.embeddings_assignment(self.tokens_map, gen_model)
         in_model = self.update_model_embeddings(gen_model, in_matrix)
 
         return in_model
