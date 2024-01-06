@@ -5,9 +5,6 @@ from fvt import VocabularyTransfer
 
 
 class FastVocabularyTransfer(VocabularyTransfer):
-    """
-    Fast Vocabulary Transfer
-    """
 
     def __init__(self):
         super(FastVocabularyTransfer, self).__init__()
