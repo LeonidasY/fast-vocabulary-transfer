@@ -19,6 +19,7 @@ class PartialVocabularyTransfer(VocabularyTransfer):
                 # if the same token exists in the old vocabulary, take its embedding
                 old_index = gen_vocab[new_token]
                 tokens_map[new_index] = [old_index]
+            
             else:
                 tokens_map[new_index] = []  # no index to map with
 
@@ -32,10 +33,12 @@ class PartialVocabularyTransfer(VocabularyTransfer):
             if old_token_indexes and len(old_token_indexes) == 1:
                 old_index = old_token_indexes[0]
                 in_matrix[new_index] = gen_matrix[old_index]
+            
             elif len(old_token_indexes) > 1:
                 raise AttributeError(
-                    f"PVT does not support 1-n mappings, multiple elements in old_token_indexes found: {old_token_indexes}"
+                    f'PVT does not support 1-n mappings, multiple elements in old_token_indexes found: {old_token_indexes}'
                 )
+            
             else:
                 # if not, initialise a random vector for the new token
                 torch.manual_seed(self.seed)
