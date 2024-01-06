@@ -3,6 +3,7 @@ import torch.nn as nn
 
 
 class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
+
     def __init__(self):
         self.tokens_map = None
 
@@ -29,6 +30,7 @@ class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
 
 
 class VocabularyTransfer(AbstractVocabularyTransfer):
+
     def __init__(self):
         super(VocabularyTransfer, self).__init__()
 
