@@ -7,9 +7,6 @@ from mwt import WordTokenizer
 
 
 class MultiWordTokenizer(WordTokenizer):
-    """
-    Multi-word Tokenizer
-    """
 
     def __init__(self, tokenizer):
         super(MultiWordTokenizer, self).__init__()
