@@ -5,6 +5,7 @@ import os
 
 
 class AbstractWordTokenizer(metaclass=abc.ABCMeta):
+
     def __init__(self):
         self.ngram_vocab = {}
         self.tokenizer = None
@@ -33,6 +34,7 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
 
 
 class WordTokenizer(AbstractWordTokenizer):
+
     def __init__(self):
         super(WordTokenizer, self).__init__()
 
