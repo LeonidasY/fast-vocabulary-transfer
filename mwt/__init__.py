@@ -3,6 +3,8 @@ import json
 import nltk
 import os
 
+from typing import List
+
 
 class AbstractWordTokenizer(metaclass=abc.ABCMeta):
 
@@ -37,65 +39,72 @@ class WordTokenizer(AbstractWordTokenizer):
 
     def __init__(self):
         super(WordTokenizer, self).__init__()
+        self.whitespace = Whitespace()
 
     def __getattr__(self, attr):
         return self.tokenizer.__getattribute__(attr)
     
     def __call__(self, text=None, text_pair=None, *args, **kwargs):
         if text is not None:
-            text = self.preprocess_text(text)
+            text = self.preprocess_text(text, *args, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair, *args, **kwargs)
 
         return self.tokenizer(text, text_pair, *args, **kwargs)
 
     def encode(self, text, text_pair=None, *args, **kwargs):
-        text = self.preprocess_text(text)
+        text = self.preprocess_text(text, *args, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair, *args, **kwargs)
 
         return self.tokenizer.encode(text, text_pair, *args, **kwargs)
 
     def encode_plus(self, text, text_pair=None, *args, **kwargs):
-        text = self.preprocess_text(text)
+        text = self.preprocess_text(text, *args, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair)
+            text_pair = self.preprocess_text(text_pair, *args, **kwargs)
 
         return self.tokenizer.encode_plus(text, text_pair, *args, **kwargs)
 
     def tokenize(self, text, *args, **kwargs):
-        text = self.preprocess_text(text)
-
+        text = self.preprocess_text(text, *args, **kwargs)
         return self.tokenizer.tokenize(text, *args, **kwargs)
 
     def decode(self, *args, **kwargs):
         text = self.tokenizer.decode(*args, **kwargs)
-        tokens = nltk.word_tokenize(text)
-        tokens = self.unmerge_ngrams(tokens)
+        tokens = self.unmerge_ngrams(text)
         return ' '.join(tokens)
 
     def convert_tokens_to_string(self, *args, **kwargs):
         text = self.tokenizer.convert_tokens_to_string(*args, **kwargs)
-        tokens = nltk.word_tokenize(text)
-        tokens = self.unmerge_ngrams(tokens)
+        tokens = self.unmerge_ngrams(text)
         return ' '.join(tokens)
 
-    def preprocess_text(self, text):
+    def preprocess_text(self, text, is_split_into_words):
         if isinstance(text, str):
-            words = nltk.word_tokenize(text)
+            if self.tokenizer.do_lower_case:
+                text = text.lower()
+            
+            words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
             words = self.merge_ngrams(words)
             text = ' '.join(words)
 
         else:
-            new_seq = []
-            for seq in text:
-                words = nltk.word_tokenize(seq)
+            batch = [text] if is_split_into_words else text
+            
+            new_batch = []
+            for text in batch:
+                if self.tokenizer.do_lower_case:
+                    text = text.lower()
+                
+                words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
                 words = self.merge_ngrams(words)
-                new_seq.append(' '.join(words))
-            text = new_seq
+                new_batch.append(' '.join(words))
+            
+            text = new_batch
 
         return text
 
@@ -119,7 +128,8 @@ class WordTokenizer(AbstractWordTokenizer):
         new_words += words[last_index:len(words)]
         return new_words
 
-    def unmerge_ngrams(self, words):
+    def unmerge_ngrams(self, text):
+        words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
