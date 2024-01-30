@@ -3,8 +3,6 @@ import nltk
 import pandas as pd
 
 from collections import OrderedDict
-from tokenizers.pre_tokenizers import Whitespace
-
 from mwt import WordTokenizer
 
 
@@ -23,7 +21,6 @@ class MultiWordTokenizer(WordTokenizer):
             data = data.str.lower()
         
         tokens = data.apply(lambda x: [t[0] for t in self.whitespace.pre_tokenize_str(x)])
-        tokens = data.apply(whitespace.tokenize)
         ngrams = tokens.apply(nltk.ngrams, n=self.n)
 
         global_freq = {}
