@@ -83,29 +83,33 @@ class WordTokenizer(AbstractWordTokenizer):
         tokens = self.unmerge_ngrams(text)
         return ' '.join(tokens)
 
-    def preprocess_text(self, text, is_split_into_words):
-        if isinstance(text, str):
-            if self.tokenizer.do_lower_case:
-                text = text.lower()
-            
-            words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
+    def preprocess_text(self, text, is_split_into_words=False):
+        if is_split_into_words:
+            words = [t.lower() for t in text] if self.tokenizer.do_lower_case else text
             words = self.merge_ngrams(words)
             text = ' '.join(words)
 
         else:
-            batch = [text] if is_split_into_words else text
-            
-            new_batch = []
-            for text in batch:
+            if isinstance(text, str):
                 if self.tokenizer.do_lower_case:
                     text = text.lower()
                 
                 words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
                 words = self.merge_ngrams(words)
-                new_batch.append(' '.join(words))
-            
-            text = new_batch
-
+                text = ' '.join(words)
+    
+            else:
+                new_batch = []
+                for sample in text:
+                    if self.tokenizer.do_lower_case:
+                        sample = sample.lower()
+                    
+                    words = [t[0] for t in self.whitespace.pre_tokenize_str(sample)]
+                    words = self.merge_ngrams(words)
+                    new_batch.append(' '.join(words))
+                
+                text = new_batch
+    
         return text
 
     def merge_ngrams(self, words):
