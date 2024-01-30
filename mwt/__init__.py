@@ -86,8 +86,7 @@ class WordTokenizer(AbstractWordTokenizer):
     def preprocess_text(self, text, is_split_into_words=False):
         if is_split_into_words:
             words = [t.lower() for t in text] if self.tokenizer.do_lower_case else text
-            words = self.merge_ngrams(words)
-            text = ' '.join(words)
+            text = self.merge_ngrams(words)
 
         else:
             if isinstance(text, str):
