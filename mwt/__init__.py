@@ -3,7 +3,7 @@ import json
 import nltk
 import os
 
-from typing import List
+from tokenizers.pre_tokenizers import Whitespace
 
 
 class AbstractWordTokenizer(metaclass=abc.ABCMeta):
