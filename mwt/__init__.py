@@ -1,6 +1,5 @@
 import abc
 import json
-import nltk
 import os
 
 from tokenizers.pre_tokenizers import Whitespace
