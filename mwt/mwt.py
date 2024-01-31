@@ -3,10 +3,10 @@ import nltk
 import pandas as pd
 
 from collections import OrderedDict
-from mwt import WordTokenizer
+from mwt import NgramTokenizer
 
 
-class MultiWordTokenizer(WordTokenizer):
+class MultiWordTokenizer(NgramTokenizer):
 
     def __init__(self, tokenizer):
         super(MultiWordTokenizer, self).__init__()
