@@ -22,7 +22,7 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def unmerge_ngrams(self, words, **kwargs):
+    def postprocess_text(self, text, **kwargs):
         raise NotImplementedError
 
     @abc.abstractmethod
