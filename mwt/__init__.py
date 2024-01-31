@@ -74,13 +74,11 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def decode(self, *args, **kwargs):
         text = self.tokenizer.decode(*args, **kwargs)
-        tokens = self.unmerge_ngrams(text)
-        return ' '.join(tokens)
+        return self.postprocess_text(text)
 
     def convert_tokens_to_string(self, *args, **kwargs):
         text = self.tokenizer.convert_tokens_to_string(*args, **kwargs)
-        tokens = self.unmerge_ngrams(text)
-        return ' '.join(tokens)
+        return self.postprocess_text(text)
 
     def preprocess_text(self, text, is_split_into_words=False):
         if is_split_into_words:
@@ -97,16 +95,16 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 text = ' '.join(words)
     
             else:
-                new_batch = []
+                batch = []
                 for sample in text:
                     if self.tokenizer.do_lower_case:
                         sample = sample.lower()
                     
                     words = [t[0] for t in self.whitespace.pre_tokenize_str(sample)]
                     words = self.merge_ngrams(words)
-                    new_batch.append(' '.join(words))
+                    batch.append(' '.join(words))
                 
-                text = new_batch
+                text = batch
     
         return text
 
@@ -130,13 +128,14 @@ class NgramTokenizer(AbstractNgramTokenizer):
         new_words += words[last_index:len(words)]
         return new_words
 
-    def unmerge_ngrams(self, text):
+    def postprocess_text(self, text):
         words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
-        
-        return words
+
+        text = ' '.join(words)
+        return text
 
     @abc.abstractmethod
     def learn_ngrams(self, data, n, top_k, **kwargs):
