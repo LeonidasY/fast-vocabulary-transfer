@@ -5,7 +5,7 @@ import os
 from tokenizers.pre_tokenizers import Whitespace
 
 
-class AbstractWordTokenizer(metaclass=abc.ABCMeta):
+class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
 
     def __init__(self):
         self.ngram_vocab = {}
@@ -34,7 +34,7 @@ class AbstractWordTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class WordTokenizer(AbstractWordTokenizer):
+class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(WordTokenizer, self).__init__()
