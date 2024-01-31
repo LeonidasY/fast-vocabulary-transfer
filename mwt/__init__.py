@@ -37,7 +37,7 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
 class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
-        super(WordTokenizer, self).__init__()
+        super(NgramTokenizer, self).__init__()
         self.whitespace = Whitespace()
 
     def __getattr__(self, attr):
