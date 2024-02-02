@@ -16,11 +16,10 @@ class MultiWordTokenizer(NgramTokenizer):
         data = pd.Series(data)
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
-
-        if self.tokenizer.do_lower_case:
-            data = data.str.lower()
         
-        tokens = data.apply(lambda x: [t[0] for t in self.whitespace.pre_tokenize_str(x)])
+        tokens = data.apply(
+            lambda x: [t[0] for t in self.whitespace.pre_tokenize_str(x.lower() if self.tokenizer.do_lower_case else x)]
+        )
         
         global_freq = {}
         for n in self.n:
