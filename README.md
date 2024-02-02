@@ -32,7 +32,7 @@ in_tokenizer = fvt.train_tokenizer(in_domain_data, pretrained_tokenizer, vocab_s
 
 # initializing a multi-word tokenizer
 mwt = MultiWordTokenizer(in_tokenizer)
-mwt.learn_ngrams(in_domain_data, n=2, top_k=1000)
+mwt.learn_ngrams(in_domain_data, n=[2, 3], top_k=1000)
 
 in_model = fvt.transfer(
     in_tokenizer=in_tokenizer,
