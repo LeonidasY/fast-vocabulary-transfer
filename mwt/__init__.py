@@ -84,31 +84,34 @@ class NgramTokenizer(AbstractNgramTokenizer):
         if is_split_into_words:
             words = [t.lower() for t in text] if self.tokenizer.do_lower_case else text
             for n in self.n:
-                text = self.merge_ngrams(words, n)
+                words = self.merge_ngrams(words, n)
+
+            text = words
 
         else:
             if isinstance(text, str):
                 if self.tokenizer.do_lower_case:
                     text = text.lower()
-                
+
                 words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
+                
                 text = ' '.join(words)
-    
+
             else:
                 batch = []
                 for sample in text:
                     if self.tokenizer.do_lower_case:
                         sample = sample.lower()
-                    
+
                     words = [t[0] for t in self.whitespace.pre_tokenize_str(sample)]
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
                     batch.append(' '.join(words))
-                
+
                 text = batch
-    
+
         return text
 
     def merge_ngrams(self, words, n):
