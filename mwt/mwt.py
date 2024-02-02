@@ -1,6 +1,7 @@
 import copy
 import nltk
 import pandas as pd
+import re
 
 from collections import OrderedDict
 from mwt import NgramTokenizer
@@ -17,9 +18,7 @@ class MultiWordTokenizer(NgramTokenizer):
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
         
-        tokens = data.apply(
-            lambda x: [t[0] for t in self.whitespace.pre_tokenize_str(x.lower() if self.tokenizer.do_lower_case else x)]
-        )
+        tokens = data.apply(lambda x: re.findall(r'\w+|[^\w\s]+', x.lower() if self.tokenizer.do_lower_case else x))
         
         global_freq = {}
         for n in self.n:
