@@ -83,7 +83,8 @@ class NgramTokenizer(AbstractNgramTokenizer):
     def preprocess_text(self, text, is_split_into_words=False):
         if is_split_into_words:
             words = [t.lower() for t in text] if self.tokenizer.do_lower_case else text
-            text = self.merge_ngrams(words)
+            for n in self.n:
+                text = self.merge_ngrams(words, n)
 
         else:
             if isinstance(text, str):
@@ -91,7 +92,8 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     text = text.lower()
                 
                 words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
-                words = self.merge_ngrams(words)
+                for n in self.n:
+                    words = self.merge_ngrams(words, n)
                 text = ' '.join(words)
     
             else:
@@ -101,16 +103,17 @@ class NgramTokenizer(AbstractNgramTokenizer):
                         sample = sample.lower()
                     
                     words = [t[0] for t in self.whitespace.pre_tokenize_str(sample)]
-                    words = self.merge_ngrams(words)
+                    for n in self.n:
+                        words = self.merge_ngrams(words, n)
                     batch.append(' '.join(words))
                 
                 text = batch
     
         return text
 
-    def merge_ngrams(self, words):
+    def merge_ngrams(self, words, n):
         sequence = []
-        for i in range(self.n):
+        for i in range(n):
             sequence.append(words[i:])
         pairs = zip(*sequence)
 
@@ -123,7 +126,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
             if ngram in self.ngram_vocab and i >= last_index:
                 new_words += words[last_index:i]
                 new_words.append(ngram)
-                last_index = i + self.n
+                last_index = i + n
 
         new_words += words[last_index:len(words)]
         return new_words
@@ -149,10 +152,10 @@ class NgramTokenizer(AbstractNgramTokenizer):
             json.dump(self.ngram_vocab, f)
 
         return self.tokenizer.save_pretrained(save_directory, *args, **kwargs)
-
+    
     def load_ngrams(self, data, **kwargs):
         self.ngram_vocab = json.load(open(data))
-        [self.n] = set(self.ngram_vocab.values())
+        self.n = sorted(set(self.ngram_vocab.values()), reverse=True)
         self.top_k = len(self.ngram_vocab)
 
         for ngram in self.ngram_vocab.keys():
