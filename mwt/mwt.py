@@ -14,23 +14,29 @@ class MultiWordTokenizer(NgramTokenizer):
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
         data = pd.Series(data)
-        self.n = n
+        self.n = sorted(n, reverse=True)
         self.top_k = top_k
 
         if self.tokenizer.do_lower_case:
             data = data.str.lower()
         
         tokens = data.apply(lambda x: [t[0] for t in self.whitespace.pre_tokenize_str(x)])
-        ngrams = tokens.apply(nltk.ngrams, n=self.n)
-
+        
         global_freq = {}
-        for ngram in ngrams:
-            freq = nltk.FreqDist(ngram)
+        for n in self.n:
+            ngrams = tokens.apply(nltk.ngrams, n=n)
 
-            for key, value in freq.items():
-                if key not in global_freq:
-                    global_freq[key] = 0
-                global_freq[key] += value
+            for ngram in ngrams:
+                try:
+                    freq = nltk.FreqDist(ngram)
+
+                    for key, value in freq.items():
+                        if key not in global_freq:
+                            global_freq[key] = 0
+                        global_freq[key] += value
+                
+                except:
+                    continue
 
         global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
 
