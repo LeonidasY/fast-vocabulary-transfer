@@ -86,7 +86,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
             for n in self.n:
                 words = self.merge_ngrams(words, n)
 
-            text = words
+            return words
 
         else:
             if isinstance(text, str):
@@ -97,7 +97,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
                 
-                text = ' '.join(words)
+                return ' '.join(words)
 
             else:
                 batch = []
@@ -110,9 +110,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                         words = self.merge_ngrams(words, n)
                     batch.append(' '.join(words))
 
-                text = batch
-
-        return text
+                return batch
 
     def merge_ngrams(self, words, n):
         sequence = []
