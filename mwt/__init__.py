@@ -1,8 +1,7 @@
 import abc
 import json
 import os
-
-from tokenizers.pre_tokenizers import Whitespace
+import re
 
 
 class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
@@ -38,7 +37,6 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(NgramTokenizer, self).__init__()
-        self.whitespace = Whitespace()
 
     def __getattr__(self, attr):
         return self.tokenizer.__getattribute__(attr)
@@ -93,7 +91,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 if self.tokenizer.do_lower_case:
                     text = text.lower()
 
-                words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
+                words = re.findall(r'\w+|[^\w\s]+', text)
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
                 
@@ -105,7 +103,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     if self.tokenizer.do_lower_case:
                         sample = sample.lower()
 
-                    words = [t[0] for t in self.whitespace.pre_tokenize_str(sample)]
+                    words = re.findall(r'\w+|[^\w\s]+', sample)
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
                     batch.append(' '.join(words))
