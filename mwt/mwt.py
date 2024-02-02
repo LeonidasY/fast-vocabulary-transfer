@@ -35,8 +35,11 @@ class MultiWordTokenizer(NgramTokenizer):
                             global_freq[key] = 0
                         global_freq[key] += value
                 
-                except:
-                    continue
+                except Exception as e:
+                    if str(e) == 'generator raised StopIteration':
+                        continue
+                    else:
+                        raise e
 
         global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
 
