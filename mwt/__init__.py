@@ -131,7 +131,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         return new_words
 
     def postprocess_text(self, text):
-        words = [t[0] for t in self.whitespace.pre_tokenize_str(text)]
+        words = re.findall(r'\w+|[^\w\s]+', text)
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
