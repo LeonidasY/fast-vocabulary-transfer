@@ -106,6 +106,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     words = re.findall(r'\w+|[^\w\s]+', sample)
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
+                    
                     batch.append(' '.join(words))
 
                 return batch
@@ -114,12 +115,10 @@ class NgramTokenizer(AbstractNgramTokenizer):
         sequence = []
         for i in range(n):
             sequence.append(words[i:])
-        pairs = zip(*sequence)
 
         new_words = []
         last_index = 0
-        
-        for i, pair in enumerate(pairs):
+        for i, pair in enumerate(zip(*sequence)):
             ngram = '_'.join(pair)
 
             if ngram in self.ngram_vocab and i >= last_index:
