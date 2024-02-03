@@ -22,7 +22,7 @@ class MultiWordTokenizer(NgramTokenizer):
         
         global_freq = {}
         for n in self.n:
-            ngrams = tokens.apply(nltk.ngrams, n=n)
+            ngrams = words.apply(nltk.ngrams, n=n)
 
             for ngram in ngrams:
                 try:
