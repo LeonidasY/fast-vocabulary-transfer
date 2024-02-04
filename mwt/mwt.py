@@ -12,13 +12,14 @@ class MultiWordTokenizer(NgramTokenizer):
     def __init__(self, tokenizer):
         super(MultiWordTokenizer, self).__init__()
         self.tokenizer = copy.deepcopy(tokenizer)
+        self.do_lower_case = self.tokenizer.tokenize('A')[0].islower()
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
         data = pd.Series(data)
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
         
-        words = data.apply(lambda x: re.findall(r'\w+|[^\w\s]+', x))
+        words = data.apply(lambda x: re.findall(r'\w+|[^\w\s]+', x.lower() if self.do_lower_case else x))
         
         global_freq = {}
         for n in self.n:
