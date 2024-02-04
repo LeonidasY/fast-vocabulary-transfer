@@ -46,36 +46,32 @@ class NgramTokenizer(AbstractNgramTokenizer):
         return self.tokenizer.__getattribute__(attr)
 
     def __call__(self, text=None, text_pair=None, *args, **kwargs):
-        is_split_into_words = kwargs.get('is_split_into_words', False)
-
         if text is not None:
-            text = self.preprocess_text(text, is_split_into_words)
+            text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair, is_split_into_words)
+            text_pair = self.preprocess_text(text_pair, **kwargs)
 
         return self.tokenizer(text, text_pair, *args, **kwargs)
 
     def encode(self, text, text_pair=None, *args, **kwargs):
-        is_split_into_words = kwargs.get('is_split_into_words', False)
-        text = self.preprocess_text(text, is_split_into_words)
+        text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair, is_split_into_words)
+            text_pair = self.preprocess_text(text_pair, **kwargs)
 
         return self.tokenizer.encode(text, text_pair, *args, **kwargs)
 
     def encode_plus(self, text, text_pair=None, *args, **kwargs):
-        is_split_into_words = kwargs.get('is_split_into_words', False)
-        text = self.preprocess_text(text, is_split_into_words)
+        text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
-            text_pair = self.preprocess_text(text_pair, is_split_into_words)
+            text_pair = self.preprocess_text(text_pair, **kwargs)
 
         return self.tokenizer.encode_plus(text, text_pair, *args, **kwargs)
 
     def tokenize(self, text, *args, **kwargs):
-        text = self.preprocess_text(text, kwargs.get('is_split_into_words', False))
+        text = self.preprocess_text(text, **kwargs)
         return self.tokenizer.tokenize(text, *args, **kwargs)
 
     def decode(self, *args, **kwargs):
@@ -86,8 +82,8 @@ class NgramTokenizer(AbstractNgramTokenizer):
         text = self.tokenizer.convert_tokens_to_string(*args, **kwargs)
         return self.postprocess_text(text)
 
-    def preprocess_text(self, text, is_split_into_words=False):
-        if is_split_into_words:
+    def preprocess_text(self, text, **kwargs):
+        if kwargs.get('is_split_into_words', False):
             words = [x.lower() for x in text] if self.do_lower_case else text
             for n in self.n:
                 words = self.merge_ngrams(words, n)
@@ -119,7 +115,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
                 return batch
 
-    def merge_ngrams(self, words, n):
+    def merge_ngrams(self, words, n, **kwargs):
         new_words = []
         start = 0
         for i in range(len(words)):
@@ -133,7 +129,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         new_words += words[start:len(words)]
         return new_words
 
-    def postprocess_text(self, text):
+    def postprocess_text(self, text, **kwargs):
         words = re.findall(r'\w+|[^\w\s]+', text)
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
