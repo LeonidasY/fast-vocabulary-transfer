@@ -26,6 +26,7 @@ pretrained_model = AutoModelForSequenceClassification.from_pretrained('bert-base
 
 # load your dataset here...
 in_domain_data = ['A list of strings', '...'] # dummy data
+in_domain_data = [x.lower() for x in in_domain_data] # lower case if tokenizer is lower-cased
 
 # training an in-domain tokenizer
 fvt = FastVocabularyTransfer()
