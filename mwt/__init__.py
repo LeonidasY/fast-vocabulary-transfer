@@ -89,7 +89,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
         else:
             if isinstance(text, str):
-                if self.tokenizer.do_lower_case:
+                if self.do_lower_case:
                     text = text.lower()
                 
                 words = re.findall(r'\w+|[^\w\s]+', text)
