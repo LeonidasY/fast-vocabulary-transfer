@@ -112,21 +112,17 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 return batch
 
     def merge_ngrams(self, words, n):
-        sequence = []
-        for i in range(n):
-            sequence.append(words[i:])
-
         new_words = []
-        last_index = 0
-        for i, pair in enumerate(zip(*sequence)):
-            ngram = '_'.join(pair)
+        start = 0
+        for i in range(len(words)):
+            ngram = '_'.join(words[i:i + n])
 
-            if ngram in self.ngram_vocab and i >= last_index:
-                new_words += words[last_index:i]
+            if ngram in self.ngram_vocab and i >= start:
+                new_words += words[start:i]
                 new_words.append(ngram)
-                last_index = i + n
+                start = i + n
 
-        new_words += words[last_index:len(words)]
+        new_words += words[start:len(words)]
         return new_words
 
     def postprocess_text(self, text):
