@@ -11,6 +11,7 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
         self.tokenizer = None
         self.n = None
         self.top_k = None
+        self.do_lower_case = None
 
     @abc.abstractmethod
     def preprocess_text(self, text, **kwargs):
@@ -80,6 +81,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def preprocess_text(self, text, is_split_into_words=False):
         if is_split_into_words:
+            words = [x.lower() for x in text] if self.do_lower_case else text
             for n in self.n:
                 words = self.merge_ngrams(text, n)
 
@@ -87,6 +89,9 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
         else:
             if isinstance(text, str):
+                if self.tokenizer.do_lower_case:
+                    text = text.lower()
+                
                 words = re.findall(r'\w+|[^\w\s]+', text)
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
@@ -96,6 +101,9 @@ class NgramTokenizer(AbstractNgramTokenizer):
             else:
                 batch = []
                 for sample in text:
+                    if self.do_lower_case:
+                        sample = sample.lower()
+                    
                     words = re.findall(r'\w+|[^\w\s]+', sample)
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
