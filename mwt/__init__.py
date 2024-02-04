@@ -117,7 +117,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         for i in range(len(words)):
             ngram = '_'.join(words[i:i + n])
 
-            if ngram in self.ngram_vocab and i >= start:
+            if ngram in self.ngram_vocab:
                 new_words += words[start:i]
                 new_words.append(ngram)
                 start = i + n
