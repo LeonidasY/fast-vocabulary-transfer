@@ -83,7 +83,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         if is_split_into_words:
             words = [x.lower() for x in text] if self.do_lower_case else text
             for n in self.n:
-                words = self.merge_ngrams(text, n)
+                words = self.merge_ngrams(words, n)
 
             return words
 
