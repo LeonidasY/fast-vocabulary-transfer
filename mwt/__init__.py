@@ -45,41 +45,41 @@ class NgramTokenizer(AbstractNgramTokenizer):
     def __getattr__(self, attr):
         return self.tokenizer.__getattribute__(attr)
 
-    def __call__(self, text=None, text_pair=None, *args, **kwargs):
+    def __call__(self, text=None, text_pair=None, **kwargs):
         if text is not None:
             text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair, **kwargs)
 
-        return self.tokenizer(text, text_pair, *args, **kwargs)
+        return self.tokenizer(text, text_pair, **kwargs)
 
-    def encode(self, text, text_pair=None, *args, **kwargs):
+    def encode(self, text, text_pair=None, **kwargs):
         text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair, **kwargs)
 
-        return self.tokenizer.encode(text, text_pair, *args, **kwargs)
+        return self.tokenizer.encode(text, text_pair, **kwargs)
 
-    def encode_plus(self, text, text_pair=None, *args, **kwargs):
+    def encode_plus(self, text, text_pair=None, **kwargs):
         text = self.preprocess_text(text, **kwargs)
 
         if text_pair is not None:
             text_pair = self.preprocess_text(text_pair, **kwargs)
 
-        return self.tokenizer.encode_plus(text, text_pair, *args, **kwargs)
+        return self.tokenizer.encode_plus(text, text_pair, **kwargs)
 
-    def tokenize(self, text, *args, **kwargs):
+    def tokenize(self, text, **kwargs):
         text = self.preprocess_text(text, **kwargs)
-        return self.tokenizer.tokenize(text, *args, **kwargs)
+        return self.tokenizer.tokenize(text, **kwargs)
 
-    def decode(self, *args, **kwargs):
-        text = self.tokenizer.decode(*args, **kwargs)
+    def decode(self, token_ids, **kwargs):
+        text = self.tokenizer.decode(token_ids, **kwargs)
         return self.postprocess_text(text)
 
-    def convert_tokens_to_string(self, *args, **kwargs):
-        text = self.tokenizer.convert_tokens_to_string(*args, **kwargs)
+    def convert_tokens_to_string(self, tokens, **kwargs):
+        text = self.tokenizer.convert_tokens_to_string(tokens, **kwargs)
         return self.postprocess_text(text)
 
     def preprocess_text(self, text, **kwargs):
@@ -135,8 +135,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
 
-        text = ' '.join(words)
-        return text
+        return ' '.join(words)
 
     @abc.abstractmethod
     def learn_ngrams(self, data, n, top_k, **kwargs):
