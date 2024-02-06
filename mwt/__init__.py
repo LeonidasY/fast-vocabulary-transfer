@@ -1,6 +1,7 @@
 import abc
 import json
 import os
+import re
 
 
 class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
