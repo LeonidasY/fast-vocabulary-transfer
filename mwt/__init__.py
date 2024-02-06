@@ -10,7 +10,6 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
         self.do_lower_case = None
         self.n = None
         self.top_k = None
-        self.lang = None
         self.pretokenizer = None
         self.ngram_vocab = {}
 
