@@ -39,7 +39,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(NgramTokenizer, self).__init__()
-        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x)
+        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w]+', x)
 
     def __len__(self):
         return len(self.tokenizer)
@@ -99,7 +99,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 words = self.pretokenizer(text)
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
-                return ' '.join(words)
+                return ''.join(words)
 
             else:
                 batch = []
@@ -110,7 +110,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     words = self.pretokenizer(seq)
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
-                    batch.append(' '.join(words))
+                    batch.append(''.join(words))
 
                 return batch
 
@@ -138,7 +138,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
 
-        return ' '.join(words)
+        return ''.join(words)
 
     @abc.abstractmethod
     def learn_ngrams(self, data, n, top_k, **kwargs):
