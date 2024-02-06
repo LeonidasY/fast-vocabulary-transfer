@@ -39,7 +39,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(NgramTokenizer, self).__init__()
-        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', re.sub(r'[^\w\s]', '', x))
+        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x)
 
     def __len__(self):
         return len(self.tokenizer)
