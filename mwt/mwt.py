@@ -1,7 +1,6 @@
 import copy
 import nltk
 import pandas as pd
-import re
 
 from collections import OrderedDict
 from mwt import NgramTokenizer
