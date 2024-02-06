@@ -19,7 +19,7 @@ class MultiWordTokenizer(NgramTokenizer):
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
         
-        words = data.apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
+        words = data.apply(lambda x: self.pretokenizer(re.sub(r'[^\w\s]', '', x.lower() if self.do_lower_case else x)))
         
         global_freq = {}
         for n in self.n:
