@@ -103,11 +103,11 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
             else:
                 batch = []
-                for sample in text:
+                for seq in text:
                     if self.do_lower_case:
-                        sample = sample.lower()
+                        seq = seq.lower()
                     
-                    words = re.findall(r'\w+|[^\w\s]+', sample)
+                    words = re.findall(r'\w+|[^\w\s]+', seq)
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
                     
