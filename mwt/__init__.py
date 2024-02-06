@@ -1,18 +1,18 @@
 import abc
 import json
 import os
-import re
 
 
 class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
 
     def __init__(self):
-        self.ngram_vocab = {}
-        self.pretokenizer = None
         self.tokenizer = None
+        self.do_lower_case = None
         self.n = None
         self.top_k = None
-        self.do_lower_case = None
+        self.lang = None
+        self.pretokenizer = None
+        self.ngram_vocab = {}
 
     @abc.abstractmethod
     def preprocess_text(self, text, **kwargs):
@@ -39,7 +39,6 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(NgramTokenizer, self).__init__()
-        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x)
 
     def __len__(self):
         return len(self.tokenizer)
