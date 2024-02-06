@@ -18,6 +18,7 @@ class MultiWordTokenizer(NgramTokenizer):
         data = pd.Series(data)
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
+        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x)
         
         words = data.apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
         
