@@ -110,7 +110,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 return batch
 
     def merge_ngrams(self, words, **kwargs):
-        sequence = [words[n:] for n in range(self.n)]
+        sequence = [words[n:] for n in self.n]
         pairs = zip(*sequence)
 
         new_words = []
