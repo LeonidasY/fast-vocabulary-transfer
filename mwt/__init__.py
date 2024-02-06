@@ -85,7 +85,8 @@ class NgramTokenizer(AbstractNgramTokenizer):
     def preprocess_text(self, text, **kwargs):
         if kwargs.get('is_split_into_words', False):
             words = [x.lower() for x in text] if self.do_lower_case else text
-            words = self.merge_ngrams(words)
+            for n in self.n:
+                words = self.merge_ngrams(words, n)
             return words
 
         else:
@@ -94,7 +95,8 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     text = text.lower()
                 
                 words = self.pretokenizer(text)
-                words = self.merge_ngrams(words)
+                for n in self.n:
+                    words = self.merge_ngrams(words, n)
                 return ' '.join(words)
 
             else:
@@ -104,13 +106,14 @@ class NgramTokenizer(AbstractNgramTokenizer):
                         seq = seq.lower()
                     
                     words = self.pretokenizer(seq)
-                    words = self.merge_ngrams(words)
+                    for n in self.n:
+                        words = self.merge_ngrams(words, n)
                     batch.append(' '.join(words))
 
                 return batch
 
-    def merge_ngrams(self, words, **kwargs):
-        sequence = [words[n:] for n in self.n]
+    def merge_ngrams(self, words, n, **kwargs):
+        sequence = [words[i:] for i in range(n)]
         pairs = zip(*sequence)
 
         new_words = []
@@ -119,10 +122,10 @@ class NgramTokenizer(AbstractNgramTokenizer):
         for i, pair in enumerate(pairs):
             ngram = '_'.join(pair)
 
-            if ngram in self.ngram_vocab and i >= start:
+            if ngram in self.ngram_vocab[n] and i >= start:
                 new_words += words[start:i]
                 new_words.append(ngram)
-                start = i + self.n
+                start = i + n
 
         new_words += words[start:len(words)]
         return new_words
