@@ -112,6 +112,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     words = self.pretokenizer(seq.replace(' ', ' Ġ'))
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
+                    
                     batch.append(''.join(words).replace('Ġ', ' '))
 
                 return batch
