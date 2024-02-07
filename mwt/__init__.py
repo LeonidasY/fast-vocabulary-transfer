@@ -39,7 +39,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
         super(NgramTokenizer, self).__init__()
-        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x.replace(' ', ' Ġ'))
+        self.pretokenizer = lambda x: re.findall(r'\w+|[^\w\s]+', x)
 
     def __len__(self):
         return len(self.tokenizer)
@@ -96,7 +96,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 if self.do_lower_case:
                     text = text.lower()
                 
-                words = self.pretokenizer(text)
+                words = self.pretokenizer(text.replace(' ', ' Ġ'))
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
                 return ''.join(words).replace('Ġ', ' ')
@@ -107,7 +107,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     if self.do_lower_case:
                         seq = seq.lower()
                     
-                    words = self.pretokenizer(seq)
+                    words = self.pretokenizer(seq.replace(' ', ' Ġ'))
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
                     batch.append(''.join(words).replace('Ġ', ' '))
@@ -131,7 +131,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         return new_words
 
     def postprocess_text(self, text, **kwargs):
-        words = self.pretokenizer(text)
+        words = self.pretokenizer(text.replace(' ', ' Ġ'))
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
                 words[i] = word.replace('_', ' ')
