@@ -115,12 +115,10 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 return batch
 
     def merge_ngrams(self, words, n, **kwargs):
-        sequence = [words[i:] for i in range(n)]
-        pairs = zip(*sequence)
-
-        new_words = []
+        pairs = zip(*[words[i:] for i in range(n)])
         start = 0
         
+        new_words = []
         for i, pair in enumerate(pairs):
             ngram = '_'.join(pair)
             whitespace = 'Ġ' if ngram[0] == 'Ġ' else ''
