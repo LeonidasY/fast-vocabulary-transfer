@@ -123,10 +123,12 @@ class NgramTokenizer(AbstractNgramTokenizer):
         
         for i, pair in enumerate(pairs):
             ngram = '_'.join(pair)
-
+            whitespace = 'Ġ' if ngram[0] == 'Ġ' else ''
+            
+            ngram = ngram.replace('Ġ', '')
             if ngram in self.ngram_vocab and i >= start:
                 new_words += words[start:i]
-                new_words.append(ngram)
+                new_words.append(whitespace + ngram)
                 start = i + n
 
         new_words += words[start:len(words)]
