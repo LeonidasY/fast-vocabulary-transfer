@@ -89,6 +89,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
             words = [x.lower() for x in text] if self.do_lower_case else text
             for n in self.n:
                 words = self.merge_ngrams(words, n)
+            
             return words
 
         else:
@@ -99,6 +100,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 words = self.pretokenizer(text.replace(' ', ' Ġ'))
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
+                
                 return ''.join(words).replace('Ġ', ' ')
 
             else:
