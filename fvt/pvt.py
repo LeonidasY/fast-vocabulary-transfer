@@ -29,14 +29,14 @@ class PartialVocabularyTransfer(VocabularyTransfer):
         gen_matrix = gen_model.get_input_embeddings().weight
         in_matrix = torch.zeros(len(tokens_map), gen_matrix.shape[1])
 
-        for new_index, old_token_indexes in tokens_map.items():
-            if old_token_indexes and len(old_token_indexes) == 1:
-                old_index = old_token_indexes[0]
+        for new_index, old_indices in tokens_map.items():
+            if old_indices and len(old_indices) == 1:
+                old_index = old_indices[0]
                 in_matrix[new_index] = gen_matrix[old_index]
             
-            elif len(old_token_indexes) > 1:
+            elif len(old_indices) > 1:
                 raise AttributeError(
-                    f'PVT does not support 1-n mappings, multiple elements in old_token_indexes found: {old_token_indexes}'
+                    f'PVT does not support 1-n mappings, multiple elements in old_token_indexes found: {old_indices}'
                 )
             
             else:

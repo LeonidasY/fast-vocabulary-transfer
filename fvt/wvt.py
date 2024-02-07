@@ -4,10 +4,10 @@ import torch
 from fvt import VocabularyTransfer
 
 
-class FastVocabularyTransfer(VocabularyTransfer):
+class WeightedVocabularyTransfer(VocabularyTransfer):
 
     def __init__(self):
-        super(FastVocabularyTransfer, self).__init__()
+        super(WeightedVocabularyTransfer, self).__init__()
 
     def tokens_mapping(self, in_tokenizer, gen_tokenizer, **kwargs):
         """
@@ -33,7 +33,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
             if new_token in gen_vocab:
                 # if the same token exists in the old vocabulary, take its embedding
                 old_index = gen_vocab[new_token]
-                tokens_map[new_index] = [old_index]
+                tokens_map[new_index] = [(old_index, 1)]
             
             else:
                 # if not, tokenize the new token using the old vocabulary
@@ -43,7 +43,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
                 else:
                     token_partition = gen_tokenizer.tokenize(new_token)
                 
-                tokens_map[new_index] = [gen_vocab[old_token] for old_token in token_partition]
+                tokens_map[new_index] = [(gen_vocab[old_token], len(old_token)) for old_token in token_partition]
 
         return tokens_map
 
@@ -62,8 +62,10 @@ class FastVocabularyTransfer(VocabularyTransfer):
         gen_matrix = gen_model.get_input_embeddings().weight
         in_matrix = torch.zeros(len(tokens_map), gen_matrix.shape[1])
 
-        for new_index, old_indices in tokens_map.items():
-            old_embedding = torch.mean(gen_matrix[old_indices], axis=0)
+        for new_index, old_tokens in tokens_map.items():
+            old_indices, weight = zip(*old_tokens)
+            old_indices, weight = list(old_indices), torch.Tensor(weight)
+            old_embedding = torch.mul(gen_matrix[old_indices], weight.unsqueeze(1)).sum(dim=0) / weight.sum()
             in_matrix[new_index] = old_embedding
 
         return in_matrix
