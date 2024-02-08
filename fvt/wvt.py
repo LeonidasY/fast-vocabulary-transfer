@@ -39,7 +39,7 @@ class WeightedVocabularyTransfer(VocabularyTransfer):
                 # if not, tokenize the new token using the old vocabulary
                 new_token = re.sub('^(##|Ġ|▁)', '', new_token)
                 if new_token in ngram_vocab:
-                    token_partition = gen_tokenizer.tokenize(new_token.split('_'), is_split_into_words=True)
+                    token_partition = gen_tokenizer.tokenize(new_token.split('‗'), is_split_into_words=True)
                 else:
                     token_partition = gen_tokenizer.tokenize(new_token)
                 
