@@ -19,7 +19,7 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def merge_ngrams(self, words, **kwargs):
+    def merge_ngrams(self, words, n, **kwargs):
         raise NotImplementedError
 
     @abc.abstractmethod
