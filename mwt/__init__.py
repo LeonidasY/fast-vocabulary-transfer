@@ -121,7 +121,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         new_words = []
         start = 0
         for i in range(len(words)):
-            ngram = '_'.join(words[i:i + n])
+            ngram = '‗'.join(words[i:i + n])
             whitespace = 'Ġ' if ngram[0] == 'Ġ' else ''
             
             ngram = ngram.replace('Ġ', '')
@@ -137,7 +137,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         words = self.pretokenizer(text.replace(' ', ' Ġ'))
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
-                words[i] = word.replace('_', ' ')
+                words[i] = word.replace('‗', ' ')
 
         return ''.join(words).replace('Ġ', ' ')
 
