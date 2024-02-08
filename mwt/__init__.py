@@ -7,12 +7,12 @@ import re
 class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
 
     def __init__(self):
+        self.ngram_vocab = {}
+        self.pretokenizer = None
         self.tokenizer = None
         self.do_lower_case = None
         self.n = None
         self.top_k = None
-        self.pretokenizer = None
-        self.ngram_vocab = {}
 
     @abc.abstractmethod
     def preprocess_text(self, text, **kwargs):
