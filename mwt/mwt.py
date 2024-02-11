@@ -2,7 +2,6 @@ import copy
 import nltk
 import pandas as pd
 
-from collections import OrderedDict
 from mwt import NgramTokenizer
 
 
@@ -39,9 +38,9 @@ class MultiWordTokenizer(NgramTokenizer):
                     else:
                         raise e
 
-        global_freq = OrderedDict(sorted(global_freq.items(), key=lambda x: x[1], reverse=True))
+        global_freq = [k for k, _ in sorted(global_freq.items(), key=lambda x: x[1], reverse=True)]
 
-        for key in list(global_freq.keys())[:self.top_k]:
+        for key in global_freq[:self.top_k]:
             ngram = '‗'.join(key)
             self.ngram_vocab[ngram] = len(key)
             self.tokenizer.add_tokens(ngram)
