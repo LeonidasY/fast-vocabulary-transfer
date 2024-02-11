@@ -38,9 +38,11 @@ class MultiWordTokenizer(NgramTokenizer):
                     else:
                         raise e
 
-        global_freq = [k for k, _ in sorted(global_freq.items(), key=lambda x: x[1], reverse=True)]
+        global_freq = {'‗'.join(k): len(k) for k, _ in sorted(global_freq.items(), key=lambda x: x[1], reverse=True)}
 
-        for key in global_freq[:self.top_k]:
-            ngram = '‗'.join(key)
-            self.ngram_vocab[ngram] = len(key)
-            self.tokenizer.add_tokens(ngram)
+        for key, value in global_freq:
+            self.ngram_vocab[key] = value
+            self.tokenizer.add_tokens(key)
+
+            if len(self.ngram_vocab) >= self.top_k:
+                break
