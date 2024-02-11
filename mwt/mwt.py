@@ -14,7 +14,7 @@ class MultiWordTokenizer(NgramTokenizer):
         self.do_lower_case = self.tokenizer.tokenize('A')[0].islower()
 
     def learn_ngrams(self, data, n, top_k, **kwargs):
-        data = pd.Series(data)
+        data = pd.Series(list(data))
         self.n = sorted(n, reverse=True)
         self.top_k = top_k
         
