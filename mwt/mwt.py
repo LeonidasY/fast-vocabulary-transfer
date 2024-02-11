@@ -35,11 +35,12 @@ class MultiWordTokenizer(NgramTokenizer):
                     else:
                         raise e
 
-        all_ngrams = {'‗'.join(k): len(k) for k, _ in sorted(all_ngrams.items(), key=lambda x: x[1], reverse=True)}
+        all_ngrams = dict(sorted(all_ngrams.items(), key=lambda x: x[1], reverse=True))
 
-        for key, value in all_ngrams.items():
-            self.ngram_vocab[key] = value
-            self.tokenizer.add_tokens(key)
+        for key in all_ngrams.keys():
+            ngram = '‗'.join(key)
+            self.ngram_vocab[ngram] = len(key)
+            self.tokenizer.add_tokens(ngram)
 
             if len(self.ngram_vocab) >= self.top_k:
                 break
