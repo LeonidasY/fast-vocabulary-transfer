@@ -40,7 +40,7 @@ class MultiWordTokenizer(NgramTokenizer):
 
         global_freq = {'‗'.join(k): len(k) for k, _ in sorted(global_freq.items(), key=lambda x: x[1], reverse=True)}
 
-        for key, value in global_freq:
+        for key, value in global_freq.items():
             self.ngram_vocab[key] = value
             self.tokenizer.add_tokens(key)
 
