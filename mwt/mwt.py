@@ -15,13 +15,13 @@ class MultiWordTokenizer(NgramTokenizer):
     def learn_ngrams(self, data, n, top_k, **kwargs):
         data = pd.Series(list(data))
         self.n = sorted(n, reverse=True)
-        self.top_k = top_k
+        self.top_k = int(top_k)
         
         words = data.apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
         
         all_ngrams = {}
         for n in self.n:
-            ngrams = words.apply(nltk.ngrams, n=n)
+            ngrams = words.apply(nltk.ngrams, n=int(n))
 
             for ngram in ngrams:
                 try:
