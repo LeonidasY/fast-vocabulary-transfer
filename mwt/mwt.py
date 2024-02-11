@@ -21,7 +21,7 @@ class MultiWordTokenizer(NgramTokenizer):
         
         all_ngrams = {}
         for n in self.n:
-            ngrams = words.apply(nltk.ngrams, n=int(n))
+            ngrams = words.apply(nltk.ngrams, n=n)
 
             for ngram in ngrams:
                 try:
