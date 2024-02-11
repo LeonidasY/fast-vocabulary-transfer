@@ -19,18 +19,15 @@ class MultiWordTokenizer(NgramTokenizer):
         
         words = data.apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
         
-        global_freq = {}
+        all_ngrams = {}
         for n in self.n:
             ngrams = words.apply(nltk.ngrams, n=n)
 
             for ngram in ngrams:
                 try:
                     freq = nltk.FreqDist(ngram)
-
                     for key, value in freq.items():
-                        if key not in global_freq:
-                            global_freq[key] = 0
-                        global_freq[key] += value
+                        all_ngrams[key] = all_ngrams.get(key, 0) + value
                 
                 except Exception as e:
                     if str(e) == 'generator raised StopIteration':
@@ -38,9 +35,9 @@ class MultiWordTokenizer(NgramTokenizer):
                     else:
                         raise e
 
-        global_freq = {'‗'.join(k): len(k) for k, _ in sorted(global_freq.items(), key=lambda x: x[1], reverse=True)}
+        all_ngrams = {'‗'.join(k): len(k) for k, _ in sorted(all_ngrams.items(), key=lambda x: x[1], reverse=True)}
 
-        for key, value in global_freq.items():
+        for key, value in all_ngrams.items():
             self.ngram_vocab[key] = value
             self.tokenizer.add_tokens(key)
 
