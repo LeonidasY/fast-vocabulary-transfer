@@ -97,11 +97,11 @@ class NgramTokenizer(AbstractNgramTokenizer):
                 if self.do_lower_case:
                     text = text.lower()
                 
-                words = self.pretokenizer(text.replace(' ', ' Ġ'))
+                words = self.pretokenizer(text.replace(' ', ' ▁'))
                 for n in self.n:
                     words = self.merge_ngrams(words, n)
                 
-                return ''.join(words).replace('Ġ', ' ')
+                return ''.join(words).replace('▁', ' ')
 
             else:
                 batch = []
@@ -109,11 +109,11 @@ class NgramTokenizer(AbstractNgramTokenizer):
                     if self.do_lower_case:
                         seq = seq.lower()
                     
-                    words = self.pretokenizer(seq.replace(' ', ' Ġ'))
+                    words = self.pretokenizer(seq.replace(' ', ' ▁'))
                     for n in self.n:
                         words = self.merge_ngrams(words, n)
                     
-                    batch.append(''.join(words).replace('Ġ', ' '))
+                    batch.append(''.join(words).replace('▁', ' '))
 
                 return batch
 
@@ -122,9 +122,9 @@ class NgramTokenizer(AbstractNgramTokenizer):
         start = 0
         for i in range(len(words)):
             ngram = '‗'.join(words[i:i + n])
-            whitespace = 'Ġ' if ngram[0] == 'Ġ' else ''
+            whitespace = '▁' if ngram[0] == '▁' else ''
             
-            ngram = ngram.replace('Ġ', '')
+            ngram = ngram.replace('▁', '')
             if ngram in self.ngram_vocab and i >= start:
                 new_words += words[start:i]
                 new_words.append(whitespace + ngram)
@@ -134,12 +134,12 @@ class NgramTokenizer(AbstractNgramTokenizer):
         return new_words
 
     def postprocess_text(self, text, **kwargs):
-        words = self.pretokenizer(text.replace(' ', ' Ġ'))
+        words = self.pretokenizer(text.replace(' ', ' ▁'))
         for i, word in enumerate(words):
             if word in self.ngram_vocab:
                 words[i] = word.replace('‗', ' ')
 
-        return ''.join(words).replace('Ġ', ' ')
+        return ''.join(words).replace('▁', ' ')
 
     @abc.abstractmethod
     def learn_ngrams(self, data, n, top_k, **kwargs):
