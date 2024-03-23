@@ -21,7 +21,7 @@ class PartialVocabularyTransfer(VocabularyTransfer):
                 tokens_map[new_index] = [old_index]
             
             else:
-                tokens_map[new_index] = []  # no index to map with
+                tokens_map[new_index] = []  # no index to map to
 
         return tokens_map
 
