@@ -7,7 +7,7 @@ from fvt import VocabularyTransfer
 class FastVocabularyTransfer(VocabularyTransfer):
 
     def __init__(self):
-        super(FastVocabularyTransfer, self).__init__()
+        super().__init__()
 
     def tokens_mapping(self, in_tokenizer, gen_tokenizer, **kwargs):
         """
@@ -56,6 +56,7 @@ class FastVocabularyTransfer(VocabularyTransfer):
         :param tokens_map: A mapping between new and old tokens. See tokens_mapping(...)
         :param gen_model: A huggingface model, e.g. bert
         :param kwargs: no kwargs
+
         :return: (2-d torch.Tensor) An embedding matrix with same size of tokens_map.
         """
 
