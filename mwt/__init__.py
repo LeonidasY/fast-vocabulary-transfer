@@ -38,7 +38,7 @@ class AbstractNgramTokenizer(metaclass=abc.ABCMeta):
 class NgramTokenizer(AbstractNgramTokenizer):
 
     def __init__(self):
-        super(NgramTokenizer, self).__init__()
+        super().__init__()
         self.pretokenizer = lambda x: re.findall(r'[\u4e00-\u9fff]|[^\u4e00-\u9fff\s]+|[^\w\s]+', x)  # keep CJK Unified Ideographs as unigrams
 
     def __len__(self):
