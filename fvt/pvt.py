@@ -6,10 +6,24 @@ from fvt import VocabularyTransfer
 class PartialVocabularyTransfer(VocabularyTransfer):
 
     def __init__(self, seed=0):
-        super(PartialVocabularyTransfer, self).__init__()
+        super().__init__()
         self.seed = seed
 
     def tokens_mapping(self, in_tokenizer, gen_tokenizer, **kwargs):
+        """
+        This method establish a mapping between each token of
+        the in-domain tokenizer (in_tokenizer) to one or more tokens from
+        the general-purpose (gen_tokenizer) tokenizer.
+
+        :param in_tokenizer: Any huggingface tokenizer
+        :param gen_tokenizer: Any huggingface tokenizer
+        :param kwargs: no kwargs
+
+        :return: A dictionary, having size of the in_tokenizer vocabulary.
+         Each key is the index corresponding to a token in the in-tokenizer.
+         Values are lists of indexes to the tokens of gen_tokenizer.
+        """
+
         gen_vocab = gen_tokenizer.get_vocab()
         in_vocab = in_tokenizer.get_vocab()
 
@@ -26,6 +40,18 @@ class PartialVocabularyTransfer(VocabularyTransfer):
         return tokens_map
 
     def embeddings_assignment(self, tokens_map, gen_model, **kwargs):
+        """
+        Given a mapping between two tokenizers and a general-purpose model
+        trained on gen_tokenizer, this method produces a new embedding matrix
+        assigning embeddings from the gen_model.
+
+        :param tokens_map: A mapping between new and old tokens. See tokens_mapping(...)
+        :param gen_model: A huggingface model, e.g. bert
+        :param kwargs: no kwargs
+
+        :return: (2-d torch.Tensor) An embedding matrix with same size of tokens_map.
+        """
+
         gen_matrix = gen_model.get_input_embeddings().weight
         in_matrix = torch.zeros(len(tokens_map), gen_matrix.shape[1])
 
