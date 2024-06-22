@@ -32,7 +32,7 @@ class AbstractVocabularyTransfer(metaclass=abc.ABCMeta):
 class VocabularyTransfer(AbstractVocabularyTransfer):
 
     def __init__(self):
-        super(VocabularyTransfer, self).__init__()
+        super().__init__()
 
     @staticmethod
     def train_tokenizer(data, gen_tokenizer, vocab_size, **kwargs):
@@ -46,6 +46,7 @@ class VocabularyTransfer(AbstractVocabularyTransfer):
 
         :return: A new trained tokenizer in the in-domain data
         """
+
         in_tokenizer = gen_tokenizer.train_new_from_iterator(data, vocab_size)
 
         return in_tokenizer
