@@ -8,7 +8,7 @@ from mwt import NgramTokenizer
 class MultiWordTokenizer(NgramTokenizer):
 
     def __init__(self, tokenizer):
-        super(MultiWordTokenizer, self).__init__()
+        super().__init__()
         self.tokenizer = copy.deepcopy(tokenizer)
         self.do_lower_case = self.tokenizer.tokenize('A')[0].islower()
 
