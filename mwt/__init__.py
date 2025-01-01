@@ -146,9 +146,7 @@ class NgramTokenizer(AbstractNgramTokenizer):
         raise NotImplementedError
 
     def save_pretrained(self, save_directory, **kwargs):
-        if not os.path.exists(save_directory):
-            os.makedirs(save_directory)
-
+        os.makedirs(save_directory, exist_ok=True)
         with open(os.path.join(save_directory, 'ngram_vocab.json'), 'w') as f:
             json.dump(self.ngram_vocab, f)
 
