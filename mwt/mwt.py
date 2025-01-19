@@ -24,7 +24,7 @@ class MultiWordTokenizer(NgramTokenizer):
         
         all_ngrams = {}
         for n in self.n:
-            ngrams = words.progress_apply(nltk.ngrams, n=n, leave=False)
+            ngrams = words.progress_apply(nltk.ngrams, n=n)
 
             for ngram in tqdm(ngrams, leave=False):
                 try:
