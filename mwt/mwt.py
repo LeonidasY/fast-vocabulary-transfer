@@ -2,6 +2,9 @@ import copy
 import nltk
 import pandas as pd
 
+from tqdm import tqdm
+tqdm.pandas()
+
 from mwt import NgramTokenizer
 
 
@@ -21,7 +24,7 @@ class MultiWordTokenizer(NgramTokenizer):
         
         all_ngrams = {}
         for n in self.n:
-            ngrams = words.apply(nltk.ngrams, n=n)
+            ngrams = words.progress_apply(nltk.ngrams, n=n)
 
             for ngram in ngrams:
                 try:
