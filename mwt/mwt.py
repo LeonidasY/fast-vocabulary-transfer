@@ -26,7 +26,7 @@ class MultiWordTokenizer(NgramTokenizer):
         for n in self.n:
             ngrams = words.progress_apply(nltk.ngrams, n=n)
 
-            for ngram in ngrams:
+            for ngram in tqdm(ngrams):
                 try:
                     freq = nltk.FreqDist(ngram)
                     for key, value in freq.items():
