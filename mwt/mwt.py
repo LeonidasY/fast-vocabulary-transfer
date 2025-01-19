@@ -20,7 +20,7 @@ class MultiWordTokenizer(NgramTokenizer):
         self.n = sorted(n, reverse=True)
         self.top_k = int(top_k)
         
-        words = data.apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
+        words = data.progress_apply(lambda x: self.pretokenizer(x.lower() if self.do_lower_case else x))
         
         all_ngrams = {}
         for n in self.n:
