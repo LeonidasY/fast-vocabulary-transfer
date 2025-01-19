@@ -24,9 +24,9 @@ class MultiWordTokenizer(NgramTokenizer):
         
         all_ngrams = {}
         for n in self.n:
-            ngrams = words.progress_apply(nltk.ngrams, n=n)
+            ngrams = words.progress_apply(nltk.ngrams, n=n, leave=False)
 
-            for ngram in tqdm(ngrams):
+            for ngram in tqdm(ngrams, leave=False):
                 try:
                     freq = nltk.FreqDist(ngram)
                     for key, value in freq.items():
